@@ -1,0 +1,30 @@
+name: CI Quality Gate
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: uv sync --group dev
+
+      - name: Export OpenAPI JSON
+        env:
+          SECRET_KEY: "dummy-secret-key-for-build-environment-32chars"
+          POSTGRES_PASSWORD: "dummy-password"
+          POSTGRES_SERVER: "localhost"
+          POSTGRES_USER: "dummy"
+          POSTGRES_DB: "dummy"
+        run: |
+          uv run scripts/export_openapi.py
+
+      - name: Verify Docs Build
+        run: uv run mkdocs build --strict
