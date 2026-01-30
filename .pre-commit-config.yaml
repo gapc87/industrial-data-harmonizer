@@ -1,0 +1,57 @@
+# Pre-commit configuration
+# Instalación: uv run pre-commit install
+# Ejecución manual: uv run pre-commit run --all-files
+
+repos:
+  # 1. Ruff: Usamos el repo oficial (es muy rápido y no necesita dependencias externas)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.14
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # 2. MyPy: Ejecución LOCAL usando el entorno uv
+  # Así MyPy "ve" todas tus dependencias reales sin duplicar en additional_dependencies
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        types: [python]
+        require_serial: true
+        files: ^src/
+
+  # 3. Hooks generales (Limpieza y Seguridad)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, master]
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+
+  # 4. Convenciones de Ramas (Strict Branch Naming)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: no-commit-to-branch
+        args: [
+          "--branch", "main",
+          "--branch", "master",
+          "--pattern", "^(?!dev$|feat/|fix/|chore/|docs/|test/|refactor/|ci/).*"
+        ]
+
+  # 5. Conventional Commits (Mensajes estandarizados)
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.3.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]

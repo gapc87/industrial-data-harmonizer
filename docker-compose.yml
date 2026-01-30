@@ -1,0 +1,78 @@
+# Orquestación de servicios para desarrollo local y producción
+# Uso: just up | just down
+
+services:
+  idh-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: idh-api
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment:
+      - ENV_STATE=${ENV_STATE:-dev}
+      - SECRET_KEY=${SECRET_KEY}
+      - POSTGRES_SERVER=idh-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-idh_admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-idh_dev}
+      - SAP_API_BASE_URL=${SAP_API_BASE_URL:-https://sandbox.api.sap.com/s4hana}
+      - SAP_TIMEOUT_SECONDS=${SAP_TIMEOUT_SECONDS:-5.0}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      idh-db:
+        condition: service_healthy
+    networks:
+      - idh-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  idh-db:
+    image: postgres:15-alpine
+    container_name: idh-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-idh_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-idh_secret_password}
+      POSTGRES_DB: ${POSTGRES_DB:-idh_dev}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - idh-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-idh_admin} -d ${POSTGRES_DB:-idh_dev}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: idh-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@idh.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    depends_on:
+      - idh-db
+    networks:
+      - idh-network
+    profiles:
+      - dev # Solo se levanta con: docker compose --profile dev up
+
+networks:
+  idh-network:
+    driver: bridge
+
+volumes:
+  pg_data:
+    driver: local

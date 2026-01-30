@@ -1,0 +1,65 @@
+site_name: Industrial Data Harmonizer
+site_url: https://gapc87.github.io/industrial-data-harmonizer/
+repo_url: https://github.com/gapc87/industrial-data-harmonizer
+repo_name: gapc87/industrial-data-harmonizer
+
+theme:
+  name: material
+  language: es
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - swagger-ui-tag
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+nav:
+  - Inicio: index.md
+  - Arquitectura:
+    - Conceptos: architecture/concepts.md
+    - Integración & Conectividad: architecture/integration.md
+    - Estrategia de Datos: architecture/data-strategy.md
+    - Seguridad: architecture/security.md
+    - Calidad: architecture/quality.md
+    - Decisiones (ADR): adr/README.md
+  - Guías de Desarrollo:
+    - Instalación (Setup): guides/setup.md
+    - Workflow Diario: guides/workflow.md
+    - Estándares de Código: guides/coding-standards.md
+    - Testing: guides/testing.md
+    - Glosario: guides/glossary.md
+  - Operaciones (Runbook):
+    - Despliegue: operations/deployment.md
+    - Monitorización: operations/monitoring.md
+    - Mantenimiento: operations/maintenance.md
+    - Troubleshooting: operations/troubleshooting.md
+    - Disaster Recovery (DRP): operations/drp.md
+  - Referencia API: api-reference.md
