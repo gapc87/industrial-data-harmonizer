@@ -1,7 +1,7 @@
 name: CI Quality Gate
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
   test-docs:
@@ -12,6 +12,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Enforce GitFlow (Main Restriction)
+        if: github.base_ref == 'main'
+        run: |
+          echo "Merging into main..."
+          SOURCE_BRANCH="${{ github.head_ref }}"
+          echo "Source Branch: $SOURCE_BRANCH"
+          
+          # Regex: Permite 'dev' O 'hotfix/...'
+          if [[ ! "$SOURCE_BRANCH" =~ ^(dev|hotfix/.*)$ ]]; then
+            echo "::error::Solo se permite merge a 'main' desde la rama 'dev' o 'hotfix/'. Tu rama es '$SOURCE_BRANCH'."
+            exit 1
+          fi
+          echo "Branch check passed!"
 
       - name: Install deps
         run: uv sync --group dev
@@ -25,6 +39,15 @@ jobs:
           POSTGRES_DB: "dummy"
         run: |
           uv run scripts/export_openapi.py
+
+      - name: Run Tests
+        env:
+          POSTGRES_PASSWORD: "dummy-password"
+          POSTGRES_SERVER: "localhost"
+          POSTGRES_USER: "dummy"
+          POSTGRES_DB: "dummy"
+          SECRET_KEY: "dummy-secret-key-for-tests-must-be-32-chars"
+        run: uv run pytest tests/unit
 
       - name: Verify Docs Build
         run: uv run mkdocs build --strict

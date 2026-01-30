@@ -33,7 +33,7 @@ repos:
       - id: check-json
       - id: check-toml
       - id: no-commit-to-branch
-        args: [--branch, main, --branch, master]
+        args: [--branch, main, --branch, dev]
       - id: detect-private-key
       - id: check-added-large-files
         args: [--maxkb=1000]
@@ -45,8 +45,8 @@ repos:
       - id: no-commit-to-branch
         args: [
           "--branch", "main",
-          "--branch", "master",
-          "--pattern", "^(?!feat/|fix/|chore/|docs/|test/|refactor/|ci/).*"
+          "--branch", "dev",
+          "--pattern", "^(?!feat/|fix/|hotfix/|chore/|docs/|test/|refactor/|ci/).*"
         ]
 
   # 5. Conventional Commits (Mensajes estandarizados)

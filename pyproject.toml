@@ -36,6 +36,7 @@ dependencies = [
     "xmltodict>=1.0.2,<2.0.0",
     "defusedxml>=0.7.1,<1.0.0",
     "structlog>=25.5.0,<26.0.0",
+    "testcontainers[postgres]>=4.14.0",
 ]
 
 [dependency-groups]
@@ -88,6 +89,10 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
+filterwarnings = [
+    # Ignorar warning de testcontainers 4.x que aparece al importar waiting_utils
+    "ignore:The @wait_container_is_ready decorator is deprecated:DeprecationWarning",
+]
 
 [tool.mypy]
 strict = true
