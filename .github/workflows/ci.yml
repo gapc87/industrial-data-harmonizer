@@ -28,5 +28,14 @@ jobs:
         run: |
           uv run scripts/export_openapi.py
 
+      - name: Run Tests
+        env:
+          POSTGRES_PASSWORD: "dummy-password"
+          POSTGRES_SERVER: "localhost"
+          POSTGRES_USER: "dummy"
+          POSTGRES_DB: "dummy"
+          SECRET_KEY: "dummy-secret-key-for-tests"
+        run: uv run pytest tests/unit
+
       - name: Verify Docs Build
         run: uv run mkdocs build --strict

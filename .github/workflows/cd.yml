@@ -1,0 +1,36 @@
+name: CD Production
+
+# Este workflow se ejecuta SOLO cuando se fusionan cambios en la rama 'main'.
+# Aquí es donde configurarías el despliegue a producción (ej. Koyeb, AWS, Railway).
+
+on:
+  push:
+    branches:
+      - main
+    # Opcional: Ignorar cambios que solo afectan documentación si ya tienes un workflow separado
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '*.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Login en tu proveedor Cloud (ejemplo genérico)
+      # - name: Install CLI tool
+      #   run: |
+      #     curl -sSL https://koyeb.com/install.sh | bash
+      
+      # 2. Desplegar
+      # - name: Deploy to Koyeb
+      #   env:
+      #     KOYEB_TOKEN: ${{ secrets.KOYEB_TOKEN }}
+      #   run: |
+      #     koyeb service redeploy industrial-data-harmonizer/api
+
+      - name: Deployment Placeholder
+        run: echo "Aquí iría el comando de despliegue a producción (Koyeb, etc)"
