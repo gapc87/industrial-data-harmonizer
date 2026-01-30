@@ -8,3 +8,18 @@ wheels/
 
 # Virtual environments
 .venv
+
+.env
+
+# Generated API Documentation
+docs/openapi.json
+site/
+
+# Testing and Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
