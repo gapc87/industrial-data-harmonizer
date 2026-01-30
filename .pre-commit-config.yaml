@@ -45,7 +45,8 @@ repos:
       - id: no-commit-to-branch
         args: [
           "--branch", "main",
-          "--pattern", "^(?!dev$|feat/|fix/|chore/|docs/|test/|refactor/|ci/).*"
+          "--branch", "dev",
+          "--pattern", "^(?!feat/|fix/|chore/|docs/|test/|refactor/|ci/).*"
         ]
 
   # 5. Conventional Commits (Mensajes estandarizados)
