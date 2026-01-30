@@ -46,7 +46,7 @@ jobs:
           POSTGRES_SERVER: "localhost"
           POSTGRES_USER: "dummy"
           POSTGRES_DB: "dummy"
-          SECRET_KEY: "dummy-secret-key-for-tests"
+          SECRET_KEY: "dummy-secret-key-for-tests-must-be-32-chars"
         run: uv run pytest tests/unit
 
       - name: Verify Docs Build
