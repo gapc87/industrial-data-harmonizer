@@ -1,7 +1,5 @@
 name: CI Quality Gate
 on:
-  push:
-    branches: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
 
@@ -14,6 +12,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Enforce GitFlow (Main Restriction)
+        if: github.base_ref == 'main'
+        run: |
+          echo "Merging into main..."
+          SOURCE_BRANCH="${{ github.head_ref }}"
+          echo "Source Branch: $SOURCE_BRANCH"
+          
+          # Regex: Permite 'dev' O 'hotfix/...'
+          if [[ ! "$SOURCE_BRANCH" =~ ^(dev|hotfix/.*)$ ]]; then
+            echo "::error::Solo se permite merge a 'main' desde la rama 'dev' o 'hotfix/'. Tu rama es '$SOURCE_BRANCH'."
+            exit 1
+          fi
+          echo "Branch check passed!"
 
       - name: Install deps
         run: uv sync --group dev

@@ -46,7 +46,7 @@ repos:
         args: [
           "--branch", "main",
           "--branch", "dev",
-          "--pattern", "^(?!feat/|fix/|chore/|docs/|test/|refactor/|ci/).*"
+          "--pattern", "^(?!feat/|fix/|hotfix/|chore/|docs/|test/|refactor/|ci/).*"
         ]
 
   # 5. Conventional Commits (Mensajes estandarizados)
