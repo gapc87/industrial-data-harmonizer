@@ -2,6 +2,7 @@
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-Docs-white?logo=swagger&logoColor=%2385EA2D&color=%2385EA2D)](https://gapc87.github.io/industrial-data-harmonizer/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: ruff-format](https://img.shields.io/badge/code%20style-ruff--format-000000.svg)](https://github.com/astral-sh/ruff)
 
@@ -13,14 +14,14 @@ El **Industrial Data Harmonizer (IDH)** es un middleware de grado empresarial di
 
 ## Características Clave
 
-| Característica | Descripción |
-|----------------|-------------|
-| **Convergencia OT/IT** | Integración fluida entre protocolos industriales y lógica de negocio |
+| Característica             | Descripción                                                                   |
+| -------------------------- | ----------------------------------------------------------------------------- |
+| **Convergencia OT/IT**     | Integración fluida entre protocolos industriales y lógica de negocio          |
 | **Arquitectura Hexagonal** | Desacoplamiento total entre dominio e infraestructura (Puertos y Adaptadores) |
-| **Resiliencia** | Circuit Breakers para SAP, Dead Letter Queues para eventos fallidos |
-| **Datos Medallion** | Segregación entre `raw_data` (inmutable) y `domain_data` (validado) |
-| **Seguridad Zero-Trust** | RBAC interno + OAuth2 para comunicación M2M |
-| **Alto Rendimiento** | Core async con FastAPI, SQLAlchemy 2.0 y `uv` |
+| **Resiliencia**            | Circuit Breakers para SAP, Dead Letter Queues para eventos fallidos           |
+| **Datos Medallion**        | Segregación entre `raw_data` (inmutable) y `domain_data` (validado)           |
+| **Seguridad Zero-Trust**   | RBAC interno + OAuth2 para comunicación M2M                                   |
+| **Alto Rendimiento**       | Core async con FastAPI, SQLAlchemy 2.0 y `uv`                                 |
 
 ---
 
@@ -115,15 +116,15 @@ src/idh/
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
-| Categoría | Tecnologías |
-|-----------|-------------|
-| **Core** | Python 3.12, Pydantic V2, FastAPI, Uvicorn |
+| Categoría        | Tecnologías                                    |
+| ---------------- | ---------------------------------------------- |
+| **Core**         | Python 3.12, Pydantic V2, FastAPI, Uvicorn     |
 | **Persistencia** | PostgreSQL 15, SQLAlchemy 2.0 (Async), Alembic |
-| **Integración** | HTTPX, xmltodict, defusedxml, APScheduler |
-| **DevOps** | Docker, Docker Compose, Just, uv |
-| **Calidad** | Ruff, MyPy (strict), Pytest, Testcontainers |
+| **Integración**  | HTTPX, xmltodict, defusedxml, APScheduler      |
+| **DevOps**       | Docker, Docker Compose, Just, uv               |
+| **Calidad**      | Ruff, MyPy (strict), Pytest, Testcontainers    |
 
 ---
 
@@ -175,7 +176,8 @@ just docs-build      # Generar sitio estático
 ## Documentación
 
 La documentación completa del proyecto está disponible en:
-[https://gapc87.github.io/industrial-data-harmonizer/](https://gapc87.github.io/industrial-data-harmonizer/)
+
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-Docs-white?logo=swagger&logoColor=%2385EA2D&color=%2385EA2D)](https://gapc87.github.io/industrial-data-harmonizer/)
 
 También puedes explorarla localmente ejecutando:
 
@@ -185,7 +187,7 @@ just docs-serve
 
 ---
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto está bajo la licencia [MIT](LICENSE).
 
