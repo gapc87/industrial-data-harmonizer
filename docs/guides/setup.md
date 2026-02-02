@@ -63,3 +63,32 @@ Para detener el entorno:
 ```bash
 just down
 ```
+
+## 4. Catálogo Completo de Comandos (Justfile)
+
+Para facilitar el desarrollo, el proyecto incluye un catálogo de comandos estandarizados accesibles mediante `just`.
+
+### Gestión del Entorno
+* `just install`: Instala todas las dependencias del proyecto (dev + prod) usando `uv`.
+* `just setup-env`: Crea el archivo `.env` inicial si no existe.
+
+### Desarrollo y Ejecución
+* `just up`: Levanta todo el stack (API + PostgreSQL) en Docker.
+* `just up-dev`: **Recomendado.** Levanta stack + **pgAdmin** en [http://localhost:5050](http://localhost:5050).
+* `just down`: Detiene y elimina los contenedores.
+* `just run`: Ejecuta el servidor API localmente con *hot-reload* (requiere DB corriendo).
+* `just logs`: Muestra los logs de los contenedores en tiempo real.
+
+### Calidad y Testing
+* `just test`: Ejecuta la suite completa de tests (Unitarios + Integración).
+* `just lint`: Ejecuta auditoría de código con **Ruff** (formato y estilo) y **MyPy** (tipado estricto).
+* `just typecheck`: Ejecuta solo la verificación de tipos con MyPy.
+
+### Base de Datos
+* `just db-migrate`: Aplica las migraciones pendientes con Alembic.
+* `just db-revision "mensaje"`: Genera un nuevo archivo de migración detectando cambios en los modelos.
+
+### Documentación
+* `just docs-serve`: Levanta este sitio de documentación en local (`http://localhost:8000`).
+* `just docs-build`: Genera la versión estática del sitio en `site/`.
+* `just docs-export`: Exporta la especificación OpenAPI (`openapi.json`).

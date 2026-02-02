@@ -6,21 +6,20 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: ruff-format](https://img.shields.io/badge/code%20style-ruff--format-000000.svg)](https://github.com/astral-sh/ruff)
 
-**Un Monolito Modular robusto para cerrar la brecha entre la Planta (OT) y el ERP Corporativo (IT).**
+**Un Monolito Modular Híbrido (Core-Feature) diseñado para cerrar la brecha entre la Planta (OT) y el ERP Corporativo (IT).**
 
-El **Industrial Data Harmonizer (IDH)** es un middleware de grado empresarial diseñado para orquestar telemetría en tiempo real de maquinaria industrial, normalizar formatos de datos dispares (JSON, XML, CSV) y sincronizar eventos de negocio críticos con SAP S/4HANA.
+El **Industrial Data Harmonizer (IDH)** es un middleware de grado empresarial diseñado para orquestar telemetría en tiempo real de maquinaria industrial, normalizar formatos de datos dispares (JSON, XML, CSV) y sincronizar eventos de negocio críticos con SAP S/4HANA mediante una estrategia de **Integridad Forense**.
+
 
 ---
 
 ## Características Clave
 
-| Característica             | Descripción                                                                   |
-| -------------------------- | ----------------------------------------------------------------------------- |
-| **Convergencia OT/IT**     | Integración fluida entre protocolos industriales y lógica de negocio          |
-| **Arquitectura Hexagonal** | Desacoplamiento total entre dominio e infraestructura (Puertos y Adaptadores) |
-| **Resiliencia**            | Circuit Breakers para SAP, Dead Letter Queues para eventos fallidos           |
-| **Datos Medallion**        | Segregación entre `raw_data` (inmutable) y `domain_data` (validado)           |
-| **Seguridad Zero-Trust**   | RBAC interno + OAuth2 para comunicación M2M                                   |
+| **Arquitectura**       | Monolito Modular Híbrido (Core-Feature)                                       |
+| **Convergencia OT/IT**     | Integración fluida entre protocolos industriales y lógica de IT                |
+| **Resiliencia**            | Circuit Breakers para SAP, 7-day Edge Buffer (Store & Forward)                 |
+| **Datos Medallion**        | Esquemas `raw_data` (Bronze/JSONB) y `public` (Silver/SQL)                    |
+| **Seguridad ZeroTrust**    | Autenticación mTLS + OAuth2, conectividad Outbound-Only (Port 443)             |
 | **Alto Rendimiento**       | Core async con FastAPI, SQLAlchemy 2.0 y `uv`                                 |
 
 ---
@@ -58,7 +57,7 @@ just run
 just up
 ```
 
-📚 **Swagger UI:** http://localhost:8000/docs
+**Swagger UI:** http://localhost:8000/docs
 
 ---
 
@@ -66,30 +65,36 @@ just up
 
 ```mermaid
 graph TD
-    subgraph "Mundo Exterior"
-        Edge["Edge Collectors"]
-        SAP["SAP S/4HANA"]
+    subgraph "Mundo Exterior (OT/IT)"
+        Edge["Edge Gateway (mTLS)"]
+        SAP["SAP S/4HANA (BTP/Webhooks)"]
     end
 
-    subgraph "Industrial Data Harmonizer"
-        API["FastAPI"]
-        Worker["Worker Async"]
-
-        subgraph "Dominio DDD"
-            Model["Entidades y\nValue Objects"]
+    subgraph "Monolito IDH"
+        subgraph "Infrastructure"
+            API["FastAPI API & WSS"]
+        end
+        subgraph "Core Module"
+            Security["Auth & Security"]
+            Shared["Shared Domain"]
+        end
+        subgraph "Business Features"
+            Ingestion["Ingestion Feature"]
+            Production["Production Feature"]
+            Quality["Quality Feature"]
         end
     end
 
-    DB[("PostgreSQL")]
+    DB[("PostgreSQL\n(Medallion)")]
 
     Edge --> API
     SAP <--> API
-    API --> Worker
-    Worker --> Model
-    Worker --> DB
+    API --> Core
+    API --> Features
+    Features --> DB
 ```
 
-> **Más detalles:** Consulta la sección de Arquitectura en la documentación oficial.
+> **Más detalles:** Consulta la sección de Arquitectura en la [documentación oficial](https://gapc87.github.io/industrial-data-harmonizer/).
 
 ---
 
@@ -97,34 +102,30 @@ graph TD
 
 ```
 src/idh/
-├── domain/              # 🟡 Núcleo DDD (sin dependencias externas)
-│   ├── models/          # Entidades y Value Objects
-│   ├── ports/           # Interfaces abstractas
-│   └── exceptions.py    # Excepciones de negocio
+├── core/                # � Lógica Transversal (Inmune a cambios)
+│   ├── domain/          # Entidades base (Gateway, User, BaseException)
+│   └── security/        # mTLS, OAuth2 y RBAC
 │
-├── application/         # 🟠 Casos de Uso
-│   ├── services/        # Orquestación de dominio
-│   └── dtos/            # Data Transfer Objects
+├── features/            # 🟢 Módulos de Negocio (Aislables)
+│   ├── ingestion/       # Drivers PLC -> Raw Data landing
+│   ├── production/      # SAP Sync -> Production flow
+│   └── quality/         # Telemetría -> Quality check
 │
-└── infrastructure/      # 🔴 Implementaciones concretas
-    ├── api/v1/          # Endpoints FastAPI
-    ├── persistence/     # Repositorios SQLAlchemy
-    ├── adapters/        # Clientes SAP, servicios externos
-    ├── config.py        # Pydantic Settings (12-Factor)
-    └── logging.py       # Structured logging
+└── infrastructure/      # 🔴 Detalle Técnico (Pegamento)
+    ├── api/             # FastAPI setup y Routers globales
+    ├── persistence/     # DB drivers y Session management
+    └── logging.py       # Structured logging & Observability
 ```
 
 ---
 
 ## Stack Tecnológico
 
-| Categoría        | Tecnologías                                    |
-| ---------------- | ---------------------------------------------- |
 | **Core**         | Python 3.12, Pydantic V2, FastAPI, Uvicorn     |
-| **Persistencia** | PostgreSQL 15, SQLAlchemy 2.0 (Async), Alembic |
-| **Integración**  | HTTPX, xmltodict, defusedxml, APScheduler      |
-| **DevOps**       | Docker, Docker Compose, Just, uv               |
-| **Calidad**      | Ruff, MyPy (strict), Pytest, Testcontainers    |
+| **Persistencia** | PostgreSQL 15.15+, SQLAlchemy 2.0 (Async)      |
+| **Seguridad**    | mTLS, OAuth2, AES-256                          |
+| **Integración**  | HTTPX, xmltodict, defusedxml                   |
+| **Calidad**      | Ruff, MyPy (strict), check-architecture        |
 
 ---
 
