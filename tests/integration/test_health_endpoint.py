@@ -34,16 +34,7 @@ class TestRootEndpoint:
 
     async def test_root_returns_system_online(self, async_client) -> None:
         """El endpoint raíz debe indicar que el sistema está online."""
-        # El endpoint raíz no existe en main.py por defecto en scaffolding,
-        # pero si existe en el código original, lo testeamos.
-        # Si da 404, actualizaremos el test.
         response = await async_client.get("/")
-        # Asumiendo que existe, o cambiamos a verificar 404 si no.
-        # En el código original que leí (files earlier), main.py no lo vi.
-        # Pero el test existía, así que asumo que existe.
-        if response.status_code == 404:
-            return  # Skip check if not implemeted
-
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "running"

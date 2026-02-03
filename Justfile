@@ -156,7 +156,7 @@ pre-commit-update:
 
 # Servir documentación localmente
 docs-serve:
-    uv run mkdocs serve
+    uv run mkdocs serve -a localhost:8001
 
 # Exportar esquema OpenAPI (requiere .env o variables de entorno)
 docs-export:
