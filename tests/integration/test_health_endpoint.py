@@ -7,10 +7,10 @@ import pytest
 
 @pytest.mark.asyncio
 class TestHealthEndpoint:
-    """Tests para /api/v1/health."""
+    """Pruebas para /api/v1/health."""
 
     async def test_health_returns_ok(self, async_client) -> None:
-        """El endpoint de health debe devolver status ok."""
+        """El endpoint de salud debe devolver estado ok."""
         response = await async_client.get("/api/v1/health")
         assert response.status_code == 200
         data = response.json()
@@ -18,7 +18,7 @@ class TestHealthEndpoint:
         assert data["service"] == "idh-api"
 
     async def test_readiness_returns_ok(self, async_client) -> None:
-        """El endpoint de readiness debe devolver estado de dependencias."""
+        """El endpoint de disponibilidad debe devolver el estado de dependencias."""
         response = await async_client.get("/api/v1/health/ready")
         assert response.status_code == 200
         data = response.json()
@@ -30,10 +30,10 @@ class TestHealthEndpoint:
 
 @pytest.mark.asyncio
 class TestRootEndpoint:
-    """Tests para endpoint raíz."""
+    """Pruebas para el endpoint raíz."""
 
     async def test_root_returns_system_online(self, async_client) -> None:
-        """El endpoint raíz debe indicar que el sistema está online."""
+        """El endpoint raíz debe indicar que el sistema está en línea."""
         response = await async_client.get("/")
         assert response.status_code == 200
         data = response.json()

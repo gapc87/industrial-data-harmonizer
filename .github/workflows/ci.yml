@@ -19,7 +19,7 @@ jobs:
           echo "Merging into main..."
           SOURCE_BRANCH="${{ github.head_ref }}"
           echo "Source Branch: $SOURCE_BRANCH"
-          
+
           # Regex: Permite 'dev' O 'hotfix/...'
           if [[ ! "$SOURCE_BRANCH" =~ ^(dev|hotfix/.*)$ ]]; then
             echo "::error::Solo se permite merge a 'main' desde la rama 'dev' o 'hotfix/'. Tu rama es '$SOURCE_BRANCH'."
@@ -37,6 +37,8 @@ jobs:
           POSTGRES_SERVER: "localhost"
           POSTGRES_USER: "dummy"
           POSTGRES_DB: "dummy"
+          OAUTH2_CLIENT_ID: "dummy-client-id"
+          MTLS_CERT_PATH: "/tmp/dummy-cert.pem"
         run: |
           uv run scripts/export_openapi.py
 
@@ -47,6 +49,8 @@ jobs:
           POSTGRES_USER: "dummy"
           POSTGRES_DB: "dummy"
           SECRET_KEY: "dummy-secret-key-for-tests-must-be-32-chars"
+          OAUTH2_CLIENT_ID: "dummy-client-id"
+          MTLS_CERT_PATH: "/tmp/dummy-cert.pem"
         run: uv run pytest tests/unit
 
       - name: Verify Docs Build
