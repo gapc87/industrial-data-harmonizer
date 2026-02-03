@@ -15,11 +15,9 @@ Se evaluaron las siguientes opciones arquitectónicas:
 
 El proyecto está mantenido por un solo desarrollador, por lo que la complejidad operativa de microservicios (service mesh, orquestación, trazabilidad distribuida) no se justifica.
 
-## Decisión
+Adoptamos una arquitectura de **Monolito Modular** organizado mediante un modelo **Híbrido de Core y Features**.
 
-Adoptamos una arquitectura de **Monolito Modular** con límites de contexto (Bounded Contexts) bien definidos internamente.
-
-El sistema se despliega como una única unidad, pero está organizado en módulos funcionales aislados que pueden extraerse a microservicios en el futuro si la escala lo requiere.
+El sistema se despliega como una única unidad, pero está organizado físicamente en carpetas `core/` (lógica transversal) y `features/` (contextos de negocio aislados) que pueden extraerse a microservicios en el futuro si la escala lo requiere.
 
 ## Alternativas Consideradas
 

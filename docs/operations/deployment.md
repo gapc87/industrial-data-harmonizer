@@ -53,6 +53,11 @@ En el servidor de producción, debe existir un archivo `.env` en la raíz del de
 
 |**Variable**|**Requerido**|**Descripción / Ejemplo**|
 |---|---|---|
+|**CONFIGURACIÓN GENERAL**|||
+|`PROJECT_NAME`|✅|Nombre del proyecto (ej: "Industrial Data Harmonizer").|
+|`API_V1_STR`|✅|Prefijo de versión (ej: `/api/v1`).|
+|`BACKEND_CORS_ORIGINS`|✅|Orígenes permitidos CORS (ej: `["http://localhost:3000"]`).|
+|`ACCESS_TOKEN_EXPIRE_MINUTES`|✅|Tiempo de vida del token JWT (ej: `60`).|
 |**INFRAESTRUCTURA**|||
 |`ENV_STATE`|✅|`prod` (Activa el modo estricto de seguridad JSON logs).|
 |`LOG_LEVEL`|✅|`INFO` (Usar `DEBUG` solo temporalmente para diagnosis).|

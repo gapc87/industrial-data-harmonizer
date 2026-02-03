@@ -9,13 +9,20 @@ Separamos drásticamente la Ingesta (captura) del Dominio (uso).
 * **Problema:** Validar estrictamente en la puerta de entrada rechazaría datos de telemetría valiosos por errores de formato menores.
 * **Solución:** Primero aseguramos la persistencia en crudo, luego procesamos.
 
-## 2. Arquitectura de Esquemas (PostgreSQL)
+* **Zona Bronze (Landing):** Esquema `raw_data`. Uso extensivo de **`JSONB`** para inmutabilidad forense.
+* **Zona Silver (Clean):** Esquema `public`. Tablas relacionales validadas vía DDD.
+
+## 2. Arquitectura de Esquemas (PostgreSQL 15.15+)
 
 ### A. Zona de Aterrizaje: Esquema `raw_data`
 Actúa como un *Data Lake Operativo* y registro de auditoría inmutable.
 
 * **Tecnología:** Uso extensivo de **`JSONB`**.
-* **Propósito:** Almacenar el *payload* exacto recibido del *Edge Collector* o SAP. "Inmutabilidad Forense".
+* **Propósito:** Almacenar el *payload* exacto recibido del *Edge Collector* o SAP.
+* **Optimización Industrial:** Se implementa una **Ventana de Escritura en Lote (2s)** para minimizar el desgaste de los discos SSD en PCs Industriales, aprovechando el *Write-Ahead-Log* (WAL).
+* **Resiliencia:**
+    * **Capacidad de Buffer:** El Gateway mantiene un buffer de **>= 7 días** para sobrevivir a cortes prolongados.
+    * **Política de Desalojo (Priority Eviction):** Ante falta de espacio, se descarta primero la `Telemetría`, preservando `Alarmas/Eventos` y `Auditoría` indefinidamente.
 
 ```sql
 CREATE TABLE raw_data.incoming_events (
@@ -47,3 +54,4 @@ El flujo de datos entre `raw_data` y `public` no es sincrónico.
 1. **Trazabilidad Total:** Posibilidad de auditar el dato crudo original meses después.
 2. **Capacidad de "Replay":** Si se corrige un bug de cálculo, se pueden reprocesar los eventos históricos.
 3. **Evolución del Esquema:** `raw_data` acepta nuevos campos sin cambios de esquema inmediato.
+4. **Optimización SSD:** Menor frecuencia de commits físicos gracias al procesamiento por batches.

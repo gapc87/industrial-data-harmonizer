@@ -50,6 +50,9 @@ nav:
   - Inicio: index.md
   - Arquitectura:
     - Conceptos: architecture/concepts.md
+    - Metodología (DDD/TDD): architecture/methodology.md
+    - Modelo de Dominio (Context Map): architecture/domain-model.md
+    - Stack Tecnológico: architecture/stack.md
     - Integración & Conectividad: architecture/integration.md
     - Estrategia de Datos: architecture/data-strategy.md
     - Seguridad: architecture/security.md
@@ -57,6 +60,7 @@ nav:
     - Decisiones (ADR): adr/README.md
   - Guías de Desarrollo:
     - Instalación (Setup): guides/setup.md
+    - Instalación Edge (OT): guides/edge-setup.md
     - Workflow Diario: guides/workflow.md
     - Estándares de Código: guides/coding-standards.md
     - Testing: guides/testing.md
@@ -67,4 +71,6 @@ nav:
     - Mantenimiento: operations/maintenance.md
     - Troubleshooting: operations/troubleshooting.md
     - Disaster Recovery (DRP): operations/drp.md
-  - Referencia API: api-reference.md
+  - Referencia:
+    - API Reference: api-reference.md
+    - Guía SAP Partner: reference/sap-integration-guide.md
