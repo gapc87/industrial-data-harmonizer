@@ -24,13 +24,13 @@ Antes de clonar el repositorio, asegúrate de tener instaladas las siguientes he
 
 2. **Configurar Variables de Entorno:**
 
-    El proyecto sigue la metodología _12-Factor App_. Copia el archivo de ejemplo para crear tu configuración local.
+    El proyecto sigue la metodología _12-Factor App_. Utilizamos un comando automatizado para generar el archivo de configuración y las claves de seguridad.
 
     ```bash
-    cp .env.example .env
+    just setup-env
     ```
 
-    > **Nota:** El archivo `.env` ya viene preconfigurado para funcionar con el entorno Docker local. No necesitas cambiar nada para empezar.
+    > **Nota:** Este comando copia `.env.example` a `.env` y genera automáticamente una `SECRET_KEY` segura.
 
 3. **Instalar Dependencias (La Magia de `uv`):**
 
