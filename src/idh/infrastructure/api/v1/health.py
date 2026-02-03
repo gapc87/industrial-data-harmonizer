@@ -66,5 +66,5 @@ async def readiness_check() -> ReadinessResponse:
     return ReadinessResponse(
         status="ok" if db_status == "connected" else "degraded",
         database=db_status,
-        sap_connection="unknown",  # Placeholder
+        sap_connection="unknown",
     )
