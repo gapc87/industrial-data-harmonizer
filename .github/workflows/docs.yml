@@ -38,11 +38,13 @@ jobs:
 
       - name: Export OpenAPI JSON
         env:
-          SECRET_KEY: "dummy-secret-key-for-build-environment-32chars"
           POSTGRES_PASSWORD: "dummy-password"
           POSTGRES_SERVER: "localhost"
           POSTGRES_USER: "dummy"
           POSTGRES_DB: "dummy"
+          SECRET_KEY: "dummy-secret-key-for-tests-must-be-32-chars"
+          OAUTH2_CLIENT_ID: "dummy-client-id"
+          MTLS_CERT_PATH: "/tmp/dummy-cert.pem"
         run: |
           uv run scripts/export_openapi.py
 
