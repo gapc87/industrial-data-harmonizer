@@ -28,14 +28,12 @@ def setup_logging(settings: "Settings") -> None:
     Args:
         settings: Configuración de la aplicación
     """
-    # Configuración base de logging estándar
     logging.basicConfig(
         format="%(message)s",
         stream=sys.stdout,
         level=getattr(logging, settings.log_level),
     )
 
-    # Procesadores comunes
     shared_processors: list[structlog.types.Processor] = [
         structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_log_level,
@@ -47,10 +45,8 @@ def setup_logging(settings: "Settings") -> None:
     ]
 
     if settings.is_production:
-        # Producción: JSON para sistemas de observabilidad
         shared_processors.append(structlog.processors.JSONRenderer())
     else:
-        # Desarrollo: Consola legible con colores
         shared_processors.append(
             structlog.dev.ConsoleRenderer(
                 colors=True, exception_formatter=structlog.dev.plain_traceback

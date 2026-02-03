@@ -107,19 +107,19 @@ check: lint-check typecheck
 # ============================================
 
 # Ejecutar todos los tests
-test:
+test: lint
     uv run pytest -v
 
 # Ejecutar tests con cobertura
-test-cov:
+test-cov: lint
     uv run pytest --cov=src/idh --cov-report=html --cov-report=term-missing
 
 # Ejecutar solo tests unitarios
-test-unit:
+test-unit: lint
     uv run pytest tests/unit -v
 
 # Ejecutar solo tests de integración
-test-integration:
+test-integration: lint
     uv run pytest tests/integration -v
 
 # ============================================
@@ -156,7 +156,7 @@ pre-commit-update:
 
 # Servir documentación localmente
 docs-serve:
-    uv run mkdocs serve
+    uv run mkdocs serve -a localhost:8001
 
 # Exportar esquema OpenAPI (requiere .env o variables de entorno)
 docs-export:

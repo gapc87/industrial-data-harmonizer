@@ -28,7 +28,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     logger = get_logger(__name__)
 
-    # --- STARTUP ---
     setup_logging(settings)
     logger.info(
         "Sistema IDH arrancando",
@@ -41,7 +40,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
-    # --- SHUTDOWN ---
     logger.info("Sistema IDH deteniéndose - Graceful Shutdown iniciado")
     # TODO: Cerrar pool de conexiones a PostgreSQL
     # TODO: Cerrar conexiones HTTP pendientes
@@ -84,5 +82,4 @@ def create_app() -> FastAPI:
     return application
 
 
-# Variable que busca Uvicorn
 app = create_app()

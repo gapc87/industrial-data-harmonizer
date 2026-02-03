@@ -1,10 +1,10 @@
 """
-Tests unitarios para excepciones de dominio.
+Pruebas unitarias para excepciones de dominio.
 
-Ejemplo de tests TDD para la capa de dominio.
+Ejemplo de pruebas TDD para la capa de dominio.
 """
 
-from idh.domain.exceptions import (
+from idh.core.domain.exceptions import (
     BusinessRuleViolationError,
     DomainException,
     EntityNotFoundError,
@@ -13,7 +13,7 @@ from idh.domain.exceptions import (
 
 
 class TestDomainException:
-    """Tests para DomainException base."""
+    """Pruebas para DomainException base."""
 
     def test_domain_exception_stores_message(self) -> None:
         """La excepción debe almacenar el mensaje correctamente."""
@@ -23,7 +23,7 @@ class TestDomainException:
 
 
 class TestEntityNotFoundError:
-    """Tests para EntityNotFoundError."""
+    """Pruebas para EntityNotFoundError."""
 
     def test_entity_not_found_formats_message(self) -> None:
         """Debe formatear el mensaje con tipo e ID de entidad."""
@@ -35,7 +35,7 @@ class TestEntityNotFoundError:
 
 
 class TestBusinessRuleViolationError:
-    """Tests para BusinessRuleViolationError."""
+    """Pruebas para BusinessRuleViolationError."""
 
     def test_is_domain_exception(self) -> None:
         """Debe ser subclase de DomainException."""
@@ -44,7 +44,7 @@ class TestBusinessRuleViolationError:
 
 
 class TestValidationError:
-    """Tests para ValidationError."""
+    """Pruebas para ValidationError."""
 
     def test_is_domain_exception(self) -> None:
         """Debe ser subclase de DomainException."""
