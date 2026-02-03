@@ -6,14 +6,8 @@ Requiere que las variables de entorno de configuración estén establecidas
 """
 
 import json
-import os
 import sys
 from pathlib import Path
-
-os.environ.setdefault("SECRET_KEY", "dummy-secret-key-for-ci-export")
-os.environ.setdefault("POSTGRES_PASSWORD", "dummy")
-os.environ.setdefault("OAUTH2_CLIENT_ID", "dummy-client-id")
-os.environ.setdefault("MTLS_CERT_PATH", "/tmp/dummy-cert.pem")
 
 sys.path.append(str(Path(__file__).parent.parent / "src"))
 
