@@ -46,6 +46,10 @@ class Settings(BaseSettings):
         description="Tiempo de expiración de tokens JWT en minutos",
     )
 
+    # --- Security ---
+    oauth2_client_id: str = Field(..., description="Client ID for OAuth2")
+    mtls_cert_path: str = Field(..., description="Path to client certificate")
+
     # --- PostgreSQL ---
     postgres_server: str = Field(default="localhost")
     postgres_port: int = Field(default=5432)

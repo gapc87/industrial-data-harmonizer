@@ -43,7 +43,7 @@ def db_container() -> Generator[str, None, None]:
 
 @pytest.fixture(scope="session")
 async def test_engine(db_container: str) -> AsyncGenerator[AsyncEngine, None]:
-    """Crea un engine SQLAlchemy conectado al contenedor de prueba."""
+    """Crea un motor SQLAlchemy conectado al contenedor de prueba."""
     engine = create_async_engine(db_container, echo=False, future=True)
     yield engine
     await engine.dispose()
@@ -63,8 +63,8 @@ async def patch_database_engine(test_engine: AsyncEngine) -> AsyncGenerator[None
 async def async_client(
     patch_database_engine: None,
 ) -> AsyncGenerator[AsyncClient, None]:
-    """ur
-    Cliente HTTP asíncrono para testear la API.
+    """
+    Cliente HTTP asíncrono para probar la API.
     """
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"

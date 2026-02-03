@@ -16,6 +16,7 @@ El **Industrial Data Harmonizer (IDH)** es un middleware de grado empresarial di
 ## Características Clave
 
 | **Arquitectura**       | Monolito Modular Híbrido (Core-Feature)                                       |
+| :--- | :--- |
 | **Convergencia OT/IT**     | Integración fluida entre protocolos industriales y lógica de IT                |
 | **Resiliencia**            | Circuit Breakers para SAP, 7-day Edge Buffer (Store & Forward)                 |
 | **Datos Medallion**        | Esquemas `raw_data` (Bronze/JSONB) y `public` (Silver/SQL)                    |
@@ -114,6 +115,7 @@ src/idh/
 └── infrastructure/      # 🔴 Detalle Técnico (Pegamento)
     ├── api/             # FastAPI setup y Routers globales
     ├── persistence/     # DB drivers y Session management
+    ├── config.py        # Configuración global y Variables de Entorno
     └── logging.py       # Structured logging & Observability
 ```
 
@@ -122,6 +124,7 @@ src/idh/
 ## Stack Tecnológico
 
 | **Core**         | Python 3.12, Pydantic V2, FastAPI, Uvicorn     |
+| :--- | :--- |
 | **Persistencia** | PostgreSQL 15.15+, SQLAlchemy 2.0 (Async)      |
 | **Seguridad**    | mTLS, OAuth2, AES-256                          |
 | **Integración**  | HTTPX, xmltodict, defusedxml                   |
