@@ -19,8 +19,6 @@ def test_settings_load_from_env() -> None:
     assert settings.oauth2_client_id is not None
     assert isinstance(settings.oauth2_client_id, str)
 
-    assert settings.mtls_cert_path is not None
-
     assert settings.oauth2_client_secret is not None
     assert isinstance(settings.oauth2_client_secret, str)
 
@@ -53,4 +51,4 @@ def test_missing_env_vars_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "secret_key" in failed_fields
     assert "oauth2_client_id" in failed_fields
     assert "oauth2_client_secret" in failed_fields
-    assert "mtls_cert_path" in failed_fields
+    assert "postgres_password" in failed_fields

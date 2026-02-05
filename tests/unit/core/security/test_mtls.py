@@ -1,0 +1,57 @@
+from unittest.mock import MagicMock
+
+from fastapi import Request
+
+from idh.core.security.mtls import extract_certificate_identity
+
+
+def test_extract_certificate_identity_from_header():
+    """Verifica la extracción de identidad desde el header X-Forwarded-Client-Cert."""
+    request = MagicMock(spec=Request)
+    # Ejemplo de header XFCC (simplificado para el test)
+    # En producción suele tener campos como Hash, Cert, Subject (CN=...)
+    xfcc = 'Hash=xyz;Subject="CN=gateway-001";URI=...'
+    request.headers = {"x-forwarded-client-cert": xfcc}
+
+    identity = extract_certificate_identity(request)
+    assert identity == "gateway-001"
+
+
+def test_extract_certificate_identity_from_transport():
+    """Verifica la extracción de identidad desde el objeto SSL del transporte."""
+    # Usar dict para scope en lugar de mock complejo para evitar líos con spec=Request
+    scope = {"type": "http", "headers": [], "extensions": {}}
+    request = MagicMock(spec=Request)
+    request.scope = scope
+    request.headers = {}
+
+    # Simular el objeto SSL
+    ssl_object = MagicMock()
+    ssl_object.getpeercert.return_value = {
+        "subject": ((("commonName", "gateway-002"),),)
+    }
+
+    # Opción 1: Extensions (Uvicorn standard)
+    scope["extensions"]["ssl"] = ssl_object
+
+    identity = extract_certificate_identity(request)
+    assert identity == "gateway-002"
+
+    # Opción 2: Fallback via scope['transport']
+    del scope["extensions"]["ssl"]
+    transport = MagicMock()
+    transport.get_extra_info.return_value = ssl_object
+    scope["transport"] = transport
+
+    identity = extract_certificate_identity(request)
+    assert identity == "gateway-002"
+
+
+def test_extract_certificate_identity_no_cert():
+    """Verifica que devuelve None si no hay certificado."""
+    request = MagicMock(spec=Request)
+    request.headers = {}
+    request.scope = {"type": "http", "extensions": {}}
+
+    identity = extract_certificate_identity(request)
+    assert identity is None
