@@ -27,7 +27,9 @@ install:
 # Ejecutar servidor en modo desarrollo (hot-reload)
 run:
     uv run uvicorn idh.main:app --reload --host 0.0.0.0 --port {{default_port}}
-
+# Ejecutar servidor con soporte mTLS
+run-mtls:
+    uv run python scripts/run_mtls.py
 # ============================================
 # DOCKER
 # ============================================
