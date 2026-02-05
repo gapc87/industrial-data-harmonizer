@@ -23,5 +23,7 @@ def test_uv_and_environment_readiness() -> None:
     assert importlib.util.find_spec("pydantic") is not None
     assert importlib.util.find_spec("pytest") is not None
 
-    # 3. Check .env exists at root (AC4)
-    assert os.path.exists(".env"), "The .env file must exist as part of setup-env"
+    # 3. Check .env exists at root
+    # En CI (GitHub Actions) no existe archivo .env, se inyectan variables.
+    if not os.getenv("CI"):
+        assert os.path.exists(".env"), "The .env file must exist as part of setup-env"
