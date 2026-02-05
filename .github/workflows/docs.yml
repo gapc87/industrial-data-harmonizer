@@ -44,6 +44,7 @@ jobs:
           POSTGRES_DB: "dummy"
           SECRET_KEY: "dummy-secret-key-for-tests-must-be-32-chars"
           OAUTH2_CLIENT_ID: "dummy-client-id"
+          OAUTH2_CLIENT_SECRET: "dummy-client-secret-at-least-32-chars-long"
           MTLS_CERT_PATH: "/tmp/dummy-cert.pem"
         run: |
           uv run scripts/export_openapi.py
