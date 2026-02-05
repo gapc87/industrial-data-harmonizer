@@ -1,9 +1,5 @@
 """
 Configuración de la Aplicación - Pydantic Settings.
-
-Centraliza todas las variables de entorno siguiendo la metodología 12-Factor App.
-Validación estricta al arranque (Fail-Fast): si falta una variable requerida,
-la aplicación no arranca.
 """
 
 from functools import lru_cache
@@ -48,6 +44,9 @@ class Settings(BaseSettings):
 
     # --- Security ---
     oauth2_client_id: str = Field(..., description="Client ID for OAuth2")
+    oauth2_client_secret: str = Field(
+        ..., description="Client Secret for OAuth2", min_length=32
+    )
     mtls_cert_path: str = Field(..., description="Path to client certificate")
 
     # --- PostgreSQL ---
