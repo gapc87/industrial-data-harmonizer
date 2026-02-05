@@ -95,9 +95,9 @@ lint-check:
     uv run ruff check .
     uv run ruff format . --check
 
-# Verificar tipos con MyPy
+# Verificar tipos con MyPy (Modo estricto)
 typecheck:
-    uv run mypy src/
+    uv run mypy --strict src/ tests/
 
 # Ejecutar todas las verificaciones de calidad
 check: lint-check typecheck

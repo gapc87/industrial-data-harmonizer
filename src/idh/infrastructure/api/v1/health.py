@@ -1,9 +1,5 @@
 """
 Health Check Endpoints.
-
-Endpoints para monitoreo y orquestación de contenedores:
-- /health: Liveness probe (¿el proceso está vivo?)
-- /health/ready: Readiness probe (¿puede recibir tráfico?)
 """
 
 from fastapi import APIRouter, status
@@ -62,7 +58,6 @@ async def readiness_check() -> ReadinessResponse:
     except Exception:  # pylint: disable=broad-except
         db_status = "disconnected"
 
-    # TODO: Verificar conectividad a SAP (ping)
     return ReadinessResponse(
         status="ok" if db_status == "connected" else "degraded",
         database=db_status,

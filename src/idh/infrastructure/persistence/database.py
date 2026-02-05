@@ -1,7 +1,5 @@
 """
 Módulo de Persistencia - SQLAlchemy Async.
-
-Gestiona la conexión a la base de datos PostgreSQL utilizando el driver asyncpg.
 """
 
 from collections.abc import AsyncGenerator
