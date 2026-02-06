@@ -22,7 +22,7 @@ def test_create_access_token() -> None:
     assert token is not None
     assert isinstance(token, str)
 
-    # Verify contents manually
+    # Verificar contenido manualmente
     payload = jwt.decode(token, settings.secret_key, algorithms=["HS256"])
     assert payload["sub"] == "test_client"
     assert payload["gateway_id"] == "gw-123"

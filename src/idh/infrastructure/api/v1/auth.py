@@ -43,7 +43,7 @@ async def login_for_access_token(credentials: ClientCredentialsRequest) -> Token
     """
     import secrets
 
-    # Use constant-time comparison to prevent timing attacks
+    # Usar comparación de tiempo constante para evitar ataques de tiempo
     is_id_valid = secrets.compare_digest(
         credentials.client_id, settings.oauth2_client_id
     )
@@ -60,15 +60,12 @@ async def login_for_access_token(credentials: ClientCredentialsRequest) -> Token
 
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
 
-    # Store minimal info in token
+    # Almacenar información mínima en el token
     token_data = {"sub": credentials.client_id, "gateway_id": credentials.client_id}
 
     access_token = create_access_token(
         data=token_data, expires_delta=access_token_expires
     )
-
-    # AC: 3 ... and expires_in (usually in seconds for Oauth2 response)
-    # The story says: "Then I receive a JWT with access_token and expires_in"
 
     return Token(
         access_token=access_token,

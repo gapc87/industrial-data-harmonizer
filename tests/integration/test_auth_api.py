@@ -28,17 +28,17 @@ def test_get_token_success() -> None:
 
 def test_get_token_invalid_credentials() -> None:
     """Verifica el rechazo (401) ante credenciales inválidas (ID o Secret)."""
-    # Case 1: Both wrong
+    # Caso 1: Ambos incorrectos
     payload = {"client_id": "wrong", "client_secret": "wrong"}
     response = client.post(f"{settings.api_v1_str}/token", json=payload)
     assert response.status_code == 401
 
-    # Case 2: Correct ID, Wrong Secret
+    # Caso 2: ID correcto, Secret incorrecto
     payload = {"client_id": settings.oauth2_client_id, "client_secret": "wrong"}
     response = client.post(f"{settings.api_v1_str}/token", json=payload)
     assert response.status_code == 401
 
-    # Case 3: Wrong ID, Correct Secret
+    # Caso 3: ID incorrecto, Secret correcto
     payload = {"client_id": "wrong", "client_secret": settings.oauth2_client_secret}
     response = client.post(f"{settings.api_v1_str}/token", json=payload)
     assert response.status_code == 401

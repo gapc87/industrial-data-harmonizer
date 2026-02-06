@@ -1,7 +1,7 @@
 from idh.infrastructure.config import Settings
 
 
-def test_mtls_settings_exist():
+def test_mtls_settings_exist() -> None:
     """Verifica que las configuraciones de mTLS existan en Settings."""
     # Esto fallará si los atributos no están definidos en la clase Settings
     settings = Settings(

@@ -109,7 +109,7 @@ check: lint-check typecheck
 # ============================================
 
 # Ejecutar todos los tests
-test: lint
+test: check lint
     uv run pytest -v
 
 # Ejecutar tests con cobertura

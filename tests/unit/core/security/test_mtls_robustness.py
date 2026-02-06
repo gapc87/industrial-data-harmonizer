@@ -1,3 +1,5 @@
+from typing import Any, MutableMapping
+
 import pytest
 from fastapi import Request
 
@@ -5,7 +7,7 @@ from idh.core.security.mtls import extract_certificate_identity
 
 
 def create_mock_request(xfcc_header: str | None = None) -> Request:
-    scope = {"type": "http", "headers": [], "extensions": {}}
+    scope: MutableMapping[str, Any] = {"type": "http", "headers": [], "extensions": {}}
     if xfcc_header:
         scope["headers"].append((b"x-forwarded-client-cert", xfcc_header.encode()))
     return Request(scope=scope)
@@ -24,7 +26,9 @@ def create_mock_request(xfcc_header: str | None = None) -> Request:
         ('Subject="CN = spaced-equals";URI=...', "spaced-equals"),
     ],
 )
-def test_extract_certificate_identity_xfcc_robustness(header, expected_cn):
+def test_extract_certificate_identity_xfcc_robustness(
+    header: str, expected_cn: str
+) -> None:
     """
     Verifica que la regex de XFCC sea robusta ante diferentes formatos de proxy. [P1]
     """
@@ -32,7 +36,7 @@ def test_extract_certificate_identity_xfcc_robustness(header, expected_cn):
     assert extract_certificate_identity(request) == expected_cn
 
 
-def test_extract_certificate_identity_xfcc_no_cn():
+def test_extract_certificate_identity_xfcc_no_cn() -> None:
     """Verifica que devuelve None si no hay CN en el header XFCC. [P2]"""
     header = 'By=...;Hash=...;Subject="O=IDH,C=HU";URI=...'
     request = create_mock_request(header)
