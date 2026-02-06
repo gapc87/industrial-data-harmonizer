@@ -28,11 +28,9 @@ def test_get_token_verifies_gateway_id_claim() -> None:
     access_token = data.get("access_token")
     assert access_token is not None
 
-    # Decode token to verify claims WITHOUT validating signature
-    # (validation is backend's job, here we validate the backend put the right data in)
-    # Note: We rely on the fact we just got it from the backend
-    # which uses the same secret.
-    # We can verify signature too if we want to be extra sure.
+    # Decodificar el token para verificar claims
+    # La backend ya validó la firma al generarlo, aquí verificamos
+    # que se hayan incluido los datos correctos.
 
     decoded_payload = jwt.decode(
         access_token, settings.secret_key, algorithms=[ALGORITHM]
