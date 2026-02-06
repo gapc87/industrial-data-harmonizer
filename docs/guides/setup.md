@@ -121,5 +121,5 @@ just run-mtls
 Esto ejecutará Uvicorn con `ssl_cert_reqs=2` (requerido). Puedes probar la conexión usando `curl`:
 
 ```bash
-curl -v --cert certs/client.crt --key certs/client.key --cacert certs/ca.crt https://localhost:8000/health
+curl -v --cert certs/client.crt --key certs/client.key --cacert certs/ca.crt https://localhost:8000/api/v1/health
 ```
