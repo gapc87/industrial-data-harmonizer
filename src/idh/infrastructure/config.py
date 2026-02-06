@@ -47,7 +47,22 @@ class Settings(BaseSettings):
     oauth2_client_secret: str = Field(
         ..., description="Client Secret for OAuth2", min_length=32
     )
-    mtls_cert_path: str = Field(..., description="Path to client certificate")
+    mtls_enabled: bool = Field(
+        default=False,
+        description="Habilita o deshabilita la validación mTLS",
+    )
+    mtls_ca_path: str | None = Field(
+        default=None,
+        description="Ruta al certificado de la CA",
+    )
+    mtls_cert_path: str | None = Field(
+        default=None,
+        description="Ruta al certificado del servidor/cliente",
+    )
+    mtls_key_path: str | None = Field(
+        default=None,
+        description="Ruta a la clave privada",
+    )
 
     # --- PostgreSQL ---
     postgres_server: str = Field(default="localhost")
