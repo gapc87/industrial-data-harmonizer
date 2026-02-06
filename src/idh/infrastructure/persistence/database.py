@@ -1,7 +1,5 @@
 """
 Módulo de Persistencia - SQLAlchemy Async.
-
-Gestiona la conexión a la base de datos PostgreSQL utilizando el driver asyncpg.
 """
 
 from collections.abc import AsyncGenerator
@@ -20,7 +18,7 @@ from idh.infrastructure.config import get_settings
 settings = get_settings()
 
 # Crear Engine Asíncrono
-# echo=True en dev para ver SQL queries en consola
+# echo=True en dev para ver consultas SQL en consola
 engine: AsyncEngine = create_async_engine(
     settings.database_url,
     echo=settings.env_state == "dev",

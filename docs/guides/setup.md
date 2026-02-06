@@ -92,3 +92,34 @@ Para facilitar el desarrollo, el proyecto incluye un catálogo de comandos estan
 * `just docs-serve`: Levanta este sitio de documentación en local (`http://localhost:8000`).
 * `just docs-build`: Genera la versión estática del sitio en `site/`.
 * `just docs-export`: Exporta la especificación OpenAPI (`openapi.json`).
+
+## 5. Seguridad y mTLS
+
+El proyecto soporta autenticación mediante **mTLS (Mutual TLS)** para la comunicación segura entre el Edge y el Cloud.
+
+### Generación de Certificados
+
+Para pruebas locales, puedes generar una CA (Authoridad de Certificación) y certificados de cliente/servidor autofirmados usando el script de utilidad:
+
+```bash
+uv run scripts/generate_test_certs.py
+```
+
+Esto creará la carpeta `certs/` en la raíz del proyecto con:
+*   `ca.crt`: Certificado de la CA.
+*   `server.crt` / `server.key`: Para el servidor (API).
+*   `client.crt` / `client.key`: Para el cliente (simulando un Gateway).
+
+### Ejecutar con mTLS Habilitado
+
+Para levantar el servidor forzando la validación de certificados de cliente:
+
+```bash
+just run-mtls
+```
+
+Esto ejecutará Uvicorn con `ssl_cert_reqs=2` (requerido). Puedes probar la conexión usando `curl`:
+
+```bash
+curl -v --cert certs/client.crt --key certs/client.key --cacert certs/ca.crt https://localhost:8000/api/v1/health
+```

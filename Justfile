@@ -27,7 +27,9 @@ install:
 # Ejecutar servidor en modo desarrollo (hot-reload)
 run:
     uv run uvicorn idh.main:app --reload --host 0.0.0.0 --port {{default_port}}
-
+# Ejecutar servidor con soporte mTLS
+run-mtls:
+    uv run python scripts/run_mtls.py
 # ============================================
 # DOCKER
 # ============================================
@@ -95,9 +97,9 @@ lint-check:
     uv run ruff check .
     uv run ruff format . --check
 
-# Verificar tipos con MyPy
+# Verificar tipos con MyPy (Modo estricto)
 typecheck:
-    uv run mypy src/
+    uv run mypy --strict src/ tests/
 
 # Ejecutar todas las verificaciones de calidad
 check: lint-check typecheck
@@ -107,7 +109,7 @@ check: lint-check typecheck
 # ============================================
 
 # Ejecutar todos los tests
-test: lint
+test: check lint
     uv run pytest -v
 
 # Ejecutar tests con cobertura

@@ -1,9 +1,5 @@
 """
 Configuración de la Aplicación - Pydantic Settings.
-
-Centraliza todas las variables de entorno siguiendo la metodología 12-Factor App.
-Validación estricta al arranque (Fail-Fast): si falta una variable requerida,
-la aplicación no arranca.
 """
 
 from functools import lru_cache
@@ -48,7 +44,25 @@ class Settings(BaseSettings):
 
     # --- Security ---
     oauth2_client_id: str = Field(..., description="Client ID for OAuth2")
-    mtls_cert_path: str = Field(..., description="Path to client certificate")
+    oauth2_client_secret: str = Field(
+        ..., description="Client Secret for OAuth2", min_length=32
+    )
+    mtls_enabled: bool = Field(
+        default=False,
+        description="Habilita o deshabilita la validación mTLS",
+    )
+    mtls_ca_path: str | None = Field(
+        default=None,
+        description="Ruta al certificado de la CA",
+    )
+    mtls_cert_path: str | None = Field(
+        default=None,
+        description="Ruta al certificado del servidor/cliente",
+    )
+    mtls_key_path: str | None = Field(
+        default=None,
+        description="Ruta a la clave privada",
+    )
 
     # --- PostgreSQL ---
     postgres_server: str = Field(default="localhost")

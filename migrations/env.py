@@ -1,3 +1,10 @@
+"""
+Entorno de migraciones Alembic.
+
+Configura el contexto de migraciones para soportar ejecución asíncrona (AsyncIO)
+y carga de configuración desde Pydantic Settings.
+"""
+
 import asyncio
 from logging.config import fileConfig
 

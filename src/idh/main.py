@@ -11,6 +11,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from idh.infrastructure.api.v1.auth import router as auth_router
 from idh.infrastructure.api.v1.health import router as health_router
 from idh.infrastructure.config import get_settings
 from idh.infrastructure.logging import get_logger, setup_logging
@@ -41,8 +42,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     yield
 
     logger.info("Sistema IDH deteniéndose - Graceful Shutdown iniciado")
-    # TODO: Cerrar pool de conexiones a PostgreSQL
-    # TODO: Cerrar conexiones HTTP pendientes
 
 
 def create_app() -> FastAPI:
@@ -72,6 +71,7 @@ def create_app() -> FastAPI:
 
     # --- Routers ---
     application.include_router(health_router, prefix=settings.api_v1_str)
+    application.include_router(auth_router, prefix=settings.api_v1_str)
 
     # Root endpoint
     @application.get("/", tags=["Root"])
