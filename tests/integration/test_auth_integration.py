@@ -29,6 +29,7 @@ def client() -> TestClient:
 
 
 def test_auth_missing_header(client: TestClient) -> None:
+    """Verifica rechazo 401 cuando falta la cabecera de autorización."""
     response = client.get("/protected")
     assert response.status_code == 401
     assert response.json() == {"detail": "Not authenticated"}
@@ -36,7 +37,7 @@ def test_auth_missing_header(client: TestClient) -> None:
 
 @pytest.mark.asyncio
 async def test_auth_valid_token(client: TestClient) -> None:
-    # Necesitamos parchear verify_token dentro de dependencies.py nuevamente
+    """Verifica autenticación exitosa con token válido mockeado."""
     # Pero para tests de integración con TestClient, mockear sync vs async
     # puede ser complicado si la dependencia es async.
     # Afortunadamente TestClient maneja las apps async bien.
