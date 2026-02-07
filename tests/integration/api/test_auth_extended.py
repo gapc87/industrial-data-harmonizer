@@ -20,6 +20,7 @@ SECRET_KEY = settings.secret_key
 
 
 def create_token(data: dict[str, Any]) -> str:
+    """Genera un token JWT firmado para pruebas."""
     return str(jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM))
 
 

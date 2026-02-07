@@ -15,6 +15,7 @@ app = FastAPI()
 
 
 async def get_gateway_id(request: Request) -> str:
+    """Obtiene el ID del gateway desde el certificado mTLS."""
     identity = extract_certificate_identity(request)
     if not identity:
         raise HTTPException(status_code=403, detail="Client certificate required")
@@ -23,6 +24,7 @@ async def get_gateway_id(request: Request) -> str:
 
 @app.get("/secure-resource")
 async def secure_resource(gateway_id: str = Depends(get_gateway_id)) -> dict[str, str]:
+    """Endpoint protegido que requiere certificado mTLS."""
     return {"message": f"Hello {gateway_id}"}
 
 

@@ -1,3 +1,10 @@
+"""
+Lógica de autenticación OAuth2 con JWT.
+
+Proporciona funciones para crear y verificar tokens JWT firmados
+utilizando el algoritmo HS256.
+"""
+
 from datetime import datetime, timedelta, timezone
 from typing import Any
 

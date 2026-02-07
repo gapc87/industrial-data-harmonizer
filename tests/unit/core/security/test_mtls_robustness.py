@@ -11,6 +11,7 @@ from idh.core.security.mtls import extract_certificate_identity
 
 
 def create_mock_request(xfcc_header: str | None = None) -> Request:
+    """Crea un objeto Request mock con un header XFCC opcional."""
     scope: MutableMapping[str, Any] = {"type": "http", "headers": [], "extensions": {}}
     if xfcc_header:
         scope["headers"].append((b"x-forwarded-client-cert", xfcc_header.encode()))
