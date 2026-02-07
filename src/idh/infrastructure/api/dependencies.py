@@ -12,7 +12,6 @@ from idh.core.security.oauth2 import verify_token
 
 logger = get_logger()
 
-# Auto-error=True hace que FastAPI devuelva automáticamente 401 si falta la cabecera
 oauth2_scheme = HTTPBearer(auto_error=True)
 
 
@@ -36,11 +35,8 @@ async def get_current_gateway(
         if payload is None:
             raise credentials_exception
 
-        # Validar que la carga útil coincide con nuestro modelo de Identidad
-        # Se asume que 'sub' contiene el ID del gateway
         identity = GatewayIdentity(**payload)
 
-        # Comprobación opcional de mTLS
         mtls_identity = extract_certificate_identity(request)
         if mtls_identity:
             if mtls_identity != identity.id:
@@ -50,7 +46,6 @@ async def get_current_gateway(
             else:
                 logger.debug("auth_mtls_match", gateway_id=identity.id)
 
-        # Establecer la identidad en el estado de la solicitud
         request.state.gateway = identity
         request.state.user = identity
 

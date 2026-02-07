@@ -30,8 +30,6 @@ def db_container() -> Generator[str, None, None]:
     postgres = PostgresContainer("postgres:15-alpine")
     postgres.start()
 
-    # Construir URL para asyncpg (testcontainers devuelve psycopg2 por defecto)
-    # driver://user:pass@host:port/db
     url = postgres.get_connection_url().replace(
         "postgresql+psycopg2://", "postgresql+asyncpg://"
     )

@@ -36,9 +36,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         log_level=settings.log_level,
     )
 
-    # TODO: Inicializar pool de conexiones a PostgreSQL
-    # TODO: Inicializar cliente SAP con Circuit Breaker
-
     yield
 
     logger.info("Sistema IDH deteniéndose - Graceful Shutdown iniciado")
@@ -60,7 +57,6 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # --- Middlewares ---
     application.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins_list,
@@ -69,11 +65,9 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # --- Routers ---
     application.include_router(health_router, prefix=settings.api_v1_str)
     application.include_router(auth_router, prefix=settings.api_v1_str)
 
-    # Root endpoint
     @application.get("/", tags=["Root"])
     async def root() -> dict[str, str]:
         """Endpoint raíz para verificación básica."""

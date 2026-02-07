@@ -17,16 +17,13 @@ from idh.infrastructure.config import get_settings
 
 settings = get_settings()
 
-# Crear Engine Asíncrono
-# echo=True en dev para ver consultas SQL en consola
 engine: AsyncEngine = create_async_engine(
     settings.database_url,
     echo=settings.env_state == "dev",
     future=True,
-    pool_pre_ping=True,  # Verifica conexiones antes de usarlas
+    pool_pre_ping=True,
 )
 
-# Factory de Sesiones
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
     class_=AsyncSession,

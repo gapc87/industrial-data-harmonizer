@@ -43,7 +43,6 @@ async def login_for_access_token(credentials: ClientCredentialsRequest) -> Token
     """
     import secrets
 
-    # Usar comparación de tiempo constante para evitar ataques de tiempo
     is_id_valid = secrets.compare_digest(
         credentials.client_id, settings.oauth2_client_id
     )
@@ -60,7 +59,6 @@ async def login_for_access_token(credentials: ClientCredentialsRequest) -> Token
 
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
 
-    # Almacenar información mínima en el token
     token_data = {"sub": credentials.client_id, "gateway_id": credentials.client_id}
 
     access_token = create_access_token(

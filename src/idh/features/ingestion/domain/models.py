@@ -1,3 +1,10 @@
+"""
+Modelos de dominio para eventos de telemetría.
+
+Estos modelos representan los datos capturados desde fuentes OT
+siguiendo el patrón Forensic Medallion de la arquitectura.
+"""
+
 from datetime import datetime
 from typing import Annotated, Any, Dict
 from uuid import UUID
@@ -7,16 +14,14 @@ from pydantic.functional_validators import AfterValidator
 
 
 def validate_utc(dt: datetime) -> datetime:
-    """Ensure the datetime is timezone-aware."""
+    """Valida que el datetime tenga zona horaria definida."""
     if dt.tzinfo is None:
         raise ValueError("Timestamp must be timezone-aware (UTC)")
     return dt
 
 
 class TelemetryMetadata(BaseModel):
-    """
-    Metadata strictly following the architecture mandate.
-    """
+    """Metadatos siguiendo estrictamente el mandato arquitectónico."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -26,10 +31,7 @@ class TelemetryMetadata(BaseModel):
 
 
 class TelemetryEvent(BaseModel):
-    """
-    Domain model for telemetry events.
-    Immutable representation of a historical fact.
-    """
+    """Modelo de dominio para eventos de telemetría. Inmutable."""
 
     model_config = ConfigDict(frozen=True)
 
