@@ -1,3 +1,7 @@
+"""
+Tests de robustez para extracción de identidad mTLS.
+"""
+
 from typing import Any, MutableMapping
 
 import pytest

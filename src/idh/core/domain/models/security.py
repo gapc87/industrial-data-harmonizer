@@ -1,3 +1,7 @@
+"""
+Modelos de dominio relacionados con seguridad.
+"""
+
 from pydantic import BaseModel, Field
 
 
