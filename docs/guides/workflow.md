@@ -136,3 +136,8 @@ Nuestro repositorio cuenta con una serie de guardianes automáticos:
 - **CD Production (`cd.yml`):**
     - Se ejecuta solo al fusionar en `main`.
     - (Template) Despliega la aplicación en el entorno de producción (ej. Koyeb).
+
+- **E2E Schedule (`e2e-schedule.yml`):**
+    - **Frecuencia:** Diario (04:00 UTC) o manual.
+    - **Objetivo:** Ejecutar tests E2E contra sistemas externos (API públicas, servicios de terceros).
+    - **Por qué separado:** Evita fallos "flaky" en los PRs y saturación de APIs externas.

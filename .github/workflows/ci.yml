@@ -43,7 +43,7 @@ jobs:
         run: |
           uv run scripts/export_openapi.py
 
-      - name: Run Tests
+      - name: Run Tests (Unit + Integration)
         env:
           POSTGRES_PASSWORD: "dummy-password"
           POSTGRES_SERVER: "localhost"
@@ -53,7 +53,11 @@ jobs:
           OAUTH2_CLIENT_ID: "dummy-client-id"
           OAUTH2_CLIENT_SECRET: "dummy-client-secret-at-least-32-chars-long"
           MTLS_CERT_PATH: "/tmp/dummy-cert.pem"
-        run: uv run pytest tests/unit
+        run: |
+          # Install 'just' task runner
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          # Run tests defined in Justfile
+          just test
 
       - name: Verify Docs Build
         run: uv run mkdocs build --strict
