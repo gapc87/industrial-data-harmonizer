@@ -108,8 +108,12 @@ check: lint-check typecheck
 # TESTING
 # ============================================
 
-# Ejecutar todos los tests
+# Ejecutar todos los tests (Unit + Integration) - Fast Feedback
 test: check lint
+    uv run pytest -m "unit or integration" -v
+
+# Ejecutar TODOS los tests (incluyendo E2E/Externos)
+test-all: check lint
     uv run pytest -v
 
 # Ejecutar tests con cobertura
@@ -118,11 +122,15 @@ test-cov: lint
 
 # Ejecutar solo tests unitarios
 test-unit: lint
-    uv run pytest tests/unit -v
+    uv run pytest -m unit -v
 
 # Ejecutar solo tests de integración
 test-integration: lint
-    uv run pytest tests/integration -v
+    uv run pytest -m integration -v
+
+# Ejecutar solo tests E2E
+test-e2e: lint
+    uv run pytest -m e2e -v
 
 # ============================================
 # BUILD & DEPLOY
