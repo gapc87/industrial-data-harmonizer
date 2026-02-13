@@ -64,7 +64,7 @@ def db_container() -> Generator[str, None, None]:
 async def opc_plc_container() -> AsyncGenerator[str, None]:
     """
     Inicia un servidor OPC UA local (usando asyncua) para tests E2E.
-    Retorna la URL de conexión (opc.tcp://localhost:port).
+    Retorna la URL de conexión.
 
     Reemplaza la imagen de Docker flaky por un servidor en proceso.
     """
@@ -73,19 +73,15 @@ async def opc_plc_container() -> AsyncGenerator[str, None]:
     server = Server()
     await server.init()
 
-    # Usamos puerto 8555 o uno dinámico si falla
     endpoint = "opc.tcp://0.0.0.0:8555/freeopcua/server/"
     server.set_endpoint(endpoint)
     server.set_server_name("FreeOpcUa Example Server")
 
-    # Configurar namespace y nodos básicos
     idx = await server.register_namespace("http://examples.freeopcua.github.io")
     ts_node = await server.nodes.objects.add_object(idx, "MyObject")
     await ts_node.add_variable(idx, "MyVariable", 6.7)
 
-    # Iniciar servidor
     async with server:
-        # Dar tiempo para que el endpoint esté activo
         await asyncio.sleep(1.0)
         yield "opc.tcp://127.0.0.1:8555/freeopcua/server/"
 
