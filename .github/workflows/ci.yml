@@ -28,7 +28,7 @@ jobs:
           echo "Branch check passed!"
 
       - name: Install deps
-        run: uv sync --group dev
+        run: uv sync --group test --group lint --group docs
 
       - name: Export OpenAPI JSON
         env:
