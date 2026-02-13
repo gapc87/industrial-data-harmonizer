@@ -4,16 +4,13 @@ Configuración global de Pytest.
 Este archivo contiene fixtures compartidos entre tests unitarios e integración.
 """
 
-import re
-import time
+import asyncio
 from collections.abc import AsyncGenerator, Generator
 from unittest.mock import patch
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
-from testcontainers.core.container import DockerContainer
-from testcontainers.core.wait_strategies import LogMessageWaitStrategy
 from testcontainers.postgres import PostgresContainer
 
 from idh.main import app
@@ -64,38 +61,29 @@ def db_container() -> Generator[str, None, None]:
 
 
 @pytest.fixture(scope="session")
-def opc_plc_container() -> Generator[str, None, None]:
+async def opc_plc_container() -> AsyncGenerator[str, None]:
     """
-    Inicia un contenedor de OPC UA Simulator (iotechsys) para tests E2E.
-    Retorna la URL de conexión (opc.tcp://localhost:port).
+    Inicia un servidor OPC UA local (usando asyncua) para tests E2E.
+    Retorna la URL de conexión.
+
+    Reemplaza la imagen de Docker flaky por un servidor en proceso.
     """
-    # Usamos iotechsys/opc-ua-sim para mayor simplicidad
-    opc = DockerContainer("iotechsys/opc-ua-sim:1.2")
+    from asyncua import Server
 
-    # Usamos red host para simplificar (solo Linux)
-    opc.with_kwargs(network_mode="host")
+    server = Server()
+    await server.init()
 
-    opc.start()
+    endpoint = "opc.tcp://0.0.0.0:8555/freeopcua/server/"
+    server.set_endpoint(endpoint)
+    server.set_server_name("FreeOpcUa Example Server")
 
-    opc.waiting_for(LogMessageWaitStrategy("TCP network layer listening on opc.tcp://"))
-    time.sleep(2)  # Pequeña pausa extra para asegurar
+    idx = await server.register_namespace("http://examples.freeopcua.github.io")
+    ts_node = await server.nodes.objects.add_object(idx, "MyObject")
+    await ts_node.add_variable(idx, "MyVariable", 6.7)
 
-    logs = opc.get_logs()
-    stdout = logs[0].decode("utf-8") if isinstance(logs, tuple) else str(logs)
-
-    # Buscamos algo como: opc.tcp://<hostname>:<port>/
-    match = re.search(r"opc\.tcp://[^:]+:(\d+)/", stdout)
-    if not match:
-        opc.stop()
-        raise RuntimeError(f"Could not find OPC UA port in logs: {stdout}")
-
-    port = match.group(1)
-    host = "localhost"
-    url = f"opc.tcp://{host}:{port}"
-
-    yield url
-
-    opc.stop()
+    async with server:
+        await asyncio.sleep(1.0)
+        yield "opc.tcp://127.0.0.1:8555/freeopcua/server/"
 
 
 @pytest.fixture(scope="session")
