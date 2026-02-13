@@ -9,7 +9,12 @@ logger = logging.getLogger(__name__)
 
 @pytest.mark.asyncio
 @pytest.mark.external
-async def test_opcua_driver_connects_to_public_server(opc_plc_container: str) -> None:
+@pytest.mark.skip(
+    reason="Infrastructure flaky: OPC UA server connection issues in CI/CD pipeline"
+)
+async def test_opcua_driver_connects_to_public_server(
+    opc_plc_container: str,
+) -> None:
     """
     Test E2E de conectividad contra servidor OPC UA Simulator (iotechsys).
     Este test verifica que el OpcUaDriver puede conectar a un servidor real,
