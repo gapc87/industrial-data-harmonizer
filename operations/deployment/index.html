@@ -1,0 +1,2037 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gapc87.github.io/industrial-data-harmonizer/operations/deployment/">
+      
+      
+        <link rel="prev" href="../../guides/glossary/">
+      
+      
+        <link rel="next" href="../monitoring/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Despliegue - Industrial Data Harmonizer</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guia-de-despliegue-y-configuracion-idh" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Industrial Data Harmonizer" class="md-header__button md-logo" aria-label="Industrial Data Harmonizer" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Industrial Data Harmonizer
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Despliegue
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gapc87/industrial-data-harmonizer" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gapc87/industrial-data-harmonizer
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/concepts/" class="md-tabs__link">
+          
+  
+  
+  Arquitectura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/setup/" class="md-tabs__link">
+          
+  
+  
+  Guías de Desarrollo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Operaciones (Runbook)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api-reference/" class="md-tabs__link">
+          
+  
+  
+  Referencia
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Industrial Data Harmonizer" class="md-nav__button md-logo" aria-label="Industrial Data Harmonizer" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Industrial Data Harmonizer
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gapc87/industrial-data-harmonizer" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gapc87/industrial-data-harmonizer
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conceptos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodología (DDD/TDD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/domain-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de Dominio (Context Map)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack Tecnológico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integración & Conectividad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/data-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrategia de Datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/quality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisiones (ADR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías de Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías de Desarrollo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalación (Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/edge-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalación Edge (OT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/coding-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estándares de Código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glosario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operaciones (Runbook)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operaciones (Runbook)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Despliegue
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Despliegue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-topologia-y-mapa-de-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Topología y Mapa de Componentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Topología y Mapa de Componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-arquitectura-de-despliegue-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Arquitectura de Despliegue (Docker Compose)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ubicacion-fisica-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Ubicación Física y Red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-dependencias-criticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Dependencias Críticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-gestion-de-configuracion-y-secretos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gestión de Configuración y Secretos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Gestión de Configuración y Secretos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-archivo-env-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Archivo .env (Producción)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-variables-criticas-tabla-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Variables Críticas (Tabla de Referencia)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-validacion-al-arranque-fail-fast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Validación al Arranque (Fail-Fast)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-rotacion-de-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Rotación de Credenciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-despliegue-y-ciclo-de-vida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Despliegue y Ciclo de Vida
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Despliegue y Ciclo de Vida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-prerrequisitos-del-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Prerrequisitos del Servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-procedimiento-de-actualizacion-estandar-zero-downtime-relativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Procedimiento de Actualización Estándar (Zero-Downtime Relativo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-procedimiento-de-instalacion-limpia-cold-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Procedimiento de "Instalación Limpia" (Cold Deploy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-rollback-vuelta-atras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Rollback (Vuelta Atrás)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitorización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maintenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mantenimiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disaster Recovery (DRP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/sap-integration-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía SAP Partner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-topologia-y-mapa-de-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Topología y Mapa de Componentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Topología y Mapa de Componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-arquitectura-de-despliegue-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Arquitectura de Despliegue (Docker Compose)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ubicacion-fisica-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Ubicación Física y Red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-dependencias-criticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Dependencias Críticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-gestion-de-configuracion-y-secretos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gestión de Configuración y Secretos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Gestión de Configuración y Secretos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-archivo-env-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Archivo .env (Producción)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-variables-criticas-tabla-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Variables Críticas (Tabla de Referencia)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-validacion-al-arranque-fail-fast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Validación al Arranque (Fail-Fast)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-rotacion-de-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Rotación de Credenciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-despliegue-y-ciclo-de-vida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Despliegue y Ciclo de Vida
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Despliegue y Ciclo de Vida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-prerrequisitos-del-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Prerrequisitos del Servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-procedimiento-de-actualizacion-estandar-zero-downtime-relativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Procedimiento de Actualización Estándar (Zero-Downtime Relativo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-procedimiento-de-instalacion-limpia-cold-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Procedimiento de "Instalación Limpia" (Cold Deploy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-rollback-vuelta-atras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Rollback (Vuelta Atrás)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="guia-de-despliegue-y-configuracion-idh">Guía de Despliegue y Configuración - IDH</h1>
+<p><strong>Sistema:</strong> Industrial Data Harmonizer (IDH)
+<strong>Estado:</strong> Producción</p>
+<hr />
+<h2 id="1-topologia-y-mapa-de-componentes">1. Topología y Mapa de Componentes</h2>
+<p>Este sistema opera en una arquitectura híbrida <strong>Edge-Cloud</strong>. Es crucial entender qué componentes corren en el servidor central (IT) y cuáles en la planta física (OT).</p>
+<h3 id="11-arquitectura-de-despliegue-docker-compose">1.1. Arquitectura de Despliegue (Docker Compose)</h3>
+<p>En el servidor central, el sistema se orquesta mediante <strong>Docker Compose</strong>. La unidad de despliegue consta de 3 servicios principales interconectados en una red privada virtual (<code>idh-network</code>).</p>
+<table>
+<thead>
+<tr>
+<th><strong>Servicio</strong></th>
+<th><strong>Nombre Contenedor</strong></th>
+<th><strong>Imagen Base</strong></th>
+<th><strong>Puerto Interno</strong></th>
+<th><strong>Puerto Expuesto (Host)</strong></th>
+<th><strong>Volúmenes (Persistencia)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API</strong></td>
+<td><code>idh-api</code></td>
+<td><code>python:3.12-slim</code></td>
+<td><code>8000</code></td>
+<td><code>8000</code> (o Reverse Proxy)</td>
+<td>N/A (Stateless)</td>
+</tr>
+<tr>
+<td><strong>Worker</strong></td>
+<td><code>idh-worker</code></td>
+<td><code>python:3.12-slim</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A (Stateless)</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td><code>idh-db</code></td>
+<td><code>postgres:15-alpine</code></td>
+<td><code>5432</code></td>
+<td><code>5432</code> (Solo localhost)</td>
+<td><code>pg_data:/var/lib/postgresql/data</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-ubicacion-fisica-y-red">1.2. Ubicación Física y Red</h3>
+<ul>
+<li>
+<p><strong>Zona IT (Servidor Central):</strong> Aloja el Monolito (<code>API</code> + <code>Worker</code> + <code>DB</code>). Debe tener visibilidad de red hacia SAP (Puerto 443/RFC) y ser accesible vía HTTPS desde los <em>Edge Collectors</em>.</p>
+</li>
+<li>
+<p><strong>Zona OT (Planta):</strong> Aloja los scripts <em>Edge Collector</em> (en Raspberry Pi / PC Industrial). Estos <strong>NO</strong> son contenedores Docker gestionados centralmente; son agentes independientes que envían datos hacia afuera (Outbound).</p>
+</li>
+</ul>
+<h3 id="13-dependencias-criticas">1.3. Dependencias Críticas</h3>
+<p>Si estos servicios externos fallan, el IDH operará en modo degradado:</p>
+<ul>
+<li>
+<p><strong>SAP S/4HANA:</strong> Crítico para validación de órdenes. Si cae, funciona el <em>Circuit Breaker</em>.</p>
+</li>
+<li>
+<p><strong>DNS Corporativo:</strong> Necesario para resolver <code>sap.internal.org</code>.</p>
+</li>
+<li>
+<p><strong>Servidor NTP:</strong> Vital para sincronizar los <em>timestamps</em> de los logs entre máquinas y servidor.</p>
+</li>
+</ul>
+<hr />
+<h2 id="2-gestion-de-configuracion-y-secretos">2. Gestión de Configuración y Secretos</h2>
+<p>El sistema sigue la metodología <strong>12-Factor App</strong>. <strong>NO existe configuración "hardcodeada"</strong> en el código. Todo se inyecta mediante variables de entorno al arrancar el contenedor.</p>
+<h3 id="21-archivo-env-produccion">2.1. Archivo <code>.env</code> (Producción)</h3>
+<p>En el servidor de producción, debe existir un archivo <code>.env</code> en la raíz del despliegue (<code>/opt/idh/.env</code>). Este archivo <strong>JAMÁS</strong> se sube al repositorio Git.</p>
+<blockquote>
+<p><strong>⚠️ Advertencia de Seguridad:</strong> Si cambias una variable en el <code>.env</code>, debes reiniciar los contenedores (<code>just restart</code>) para que surta efecto.</p>
+</blockquote>
+<h3 id="22-variables-criticas-tabla-de-referencia">2.2. Variables Críticas (Tabla de Referencia)</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Variable</strong></th>
+<th><strong>Requerido</strong></th>
+<th><strong>Descripción / Ejemplo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CONFIGURACIÓN GENERAL</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PROJECT_NAME</code></td>
+<td>✅</td>
+<td>Nombre del proyecto (ej: "Industrial Data Harmonizer").</td>
+</tr>
+<tr>
+<td><code>API_V1_STR</code></td>
+<td>✅</td>
+<td>Prefijo de versión (ej: <code>/api/v1</code>).</td>
+</tr>
+<tr>
+<td><code>BACKEND_CORS_ORIGINS</code></td>
+<td>✅</td>
+<td>Orígenes permitidos CORS (ej: <code>["http://localhost:3000"]</code>).</td>
+</tr>
+<tr>
+<td><code>ACCESS_TOKEN_EXPIRE_MINUTES</code></td>
+<td>✅</td>
+<td>Tiempo de vida del token JWT (ej: <code>60</code>).</td>
+</tr>
+<tr>
+<td><strong>INFRAESTRUCTURA</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ENV_STATE</code></td>
+<td>✅</td>
+<td><code>prod</code> (Activa el modo estricto de seguridad JSON logs).</td>
+</tr>
+<tr>
+<td><code>LOG_LEVEL</code></td>
+<td>✅</td>
+<td><code>INFO</code> (Usar <code>DEBUG</code> solo temporalmente para diagnosis).</td>
+</tr>
+<tr>
+<td><code>SECRET_KEY</code></td>
+<td>✅</td>
+<td>Cadena aleatoria larga para firmar JWTs (openssl rand -hex 32).</td>
+</tr>
+<tr>
+<td><strong>BASE DE DATOS</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POSTGRES_SERVER</code></td>
+<td>✅</td>
+<td>Nombre del servicio docker: <code>idh-db</code> o <code>localhost</code>.</td>
+</tr>
+<tr>
+<td><code>POSTGRES_PORT</code></td>
+<td>✅</td>
+<td><code>5432</code></td>
+</tr>
+<tr>
+<td><code>POSTGRES_USER</code></td>
+<td>✅</td>
+<td>Usuario PostgreSQL (ej: <code>idh_admin</code>).</td>
+</tr>
+<tr>
+<td><code>POSTGRES_PASSWORD</code></td>
+<td>✅</td>
+<td><strong>SECRETO.</strong> Contraseña robusta del usuario DB.</td>
+</tr>
+<tr>
+<td><code>POSTGRES_DB</code></td>
+<td>✅</td>
+<td><code>idh_production</code>.</td>
+</tr>
+<tr>
+<td><strong>INTEGRACIÓN SAP</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SAP_API_BASE_URL</code></td>
+<td>✅</td>
+<td>Endpoint base de SAP (ej: <code>https://sap-gw.org/sap/opu/odata</code>).</td>
+</tr>
+<tr>
+<td><code>SAP_AUTH_USER</code></td>
+<td>❌</td>
+<td>Usuario técnico para Basic Auth (Si aplica).</td>
+</tr>
+<tr>
+<td><code>SAP_AUTH_PASS</code></td>
+<td>❌</td>
+<td>Contraseña técnica SAP.</td>
+</tr>
+<tr>
+<td><code>SAP_TIMEOUT_SECONDS</code></td>
+<td>✅</td>
+<td>Segundos antes de abrir el <em>Circuit Breaker</em> (Default: <code>5.0</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-validacion-al-arranque-fail-fast">2.3. Validación al Arranque (Fail-Fast)</h3>
+<p>El sistema utiliza <code>Pydantic Settings</code> para validar estas variables al inicio.</p>
+<ul>
+<li>
+<p><strong>Si falta una variable obligatoria:</strong> El contenedor <code>idh-api</code> se detendrá inmediatamente y arrojará un error claro en los logs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ValidationError: 1 validation error for Settings
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>DB_PASSWORD
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  field required (type=value_error.missing)
+</code></pre></div>
+</li>
+<li>
+<p><strong>Acción:</strong> Revisa el archivo <code>.env</code> y asegúrate de que la variable existe y no tiene espacios en blanco extra.</p>
+</li>
+</ul>
+<h3 id="24-rotacion-de-credenciales">2.4. Rotación de Credenciales</h3>
+<p>Si se compromete una contraseña (SAP o DB) o la <code>SECRET_KEY</code>:</p>
+<ol>
+<li>
+<p>Actualizar el valor en el sistema origen (Postgres/SAP).</p>
+</li>
+<li>
+<p>Editar el archivo <code>.env</code> en el servidor.</p>
+</li>
+<li>
+<p>Ejecutar <code>just down &amp;&amp; just up</code> para recrear los contenedores con los nuevos secretos.</p>
+</li>
+<li>
+<p>(Opcional) Si rotas <code>SECRET_KEY</code>, todos los usuarios deberán loguearse de nuevo.</p>
+</li>
+</ol>
+<hr />
+<h2 id="3-despliegue-y-ciclo-de-vida">3. Despliegue y Ciclo de Vida</h2>
+<p>Procedimientos estándar para desplegar nuevas versiones, aplicar parches y gestionar la base de datos en el entorno de producción.</p>
+<h3 id="31-prerrequisitos-del-servidor">3.1. Prerrequisitos del Servidor</h3>
+<p>Antes de cualquier despliegue, verifica:</p>
+<ul>
+<li>
+<p>Docker Daemon está corriendo: <code>docker info</code>.</p>
+</li>
+<li>
+<p>Conectividad con el Container Registry (si usas imágenes privadas): <code>docker login</code>.</p>
+</li>
+<li>
+<p>Espacio en disco suficiente: <code>df -h</code>. (PostgreSQL requiere espacio libre para WAL logs).</p>
+</li>
+</ul>
+<h3 id="32-procedimiento-de-actualizacion-estandar-zero-downtime-relativo">3.2. Procedimiento de Actualización Estándar (Zero-Downtime Relativo)</h3>
+<p>Para desplegar una nueva versión del código (<code>latest</code>) sin detener el servicio más de unos segundos:</p>
+<ol>
+<li>
+<p><strong>Descargar imágenes:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker-compose<span class="w"> </span>pull
+</code></pre></div>
+</li>
+<li>
+<p><strong>Aplicar Migraciones de Base de Datos (CRÍTICO):</strong></p>
+<p>Antes de reiniciar el código, asegura que la BBDD tiene la estructura nueva.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Usando Just (Recomendado)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>just<span class="w"> </span>db-migrate
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># O manual con Docker</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>docker-compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>api<span class="w"> </span>alembic<span class="w"> </span>upgrade<span class="w"> </span>head
+</code></pre></div>
+</li>
+<li>
+<p><strong>Reiniciar Contenedores:</strong></p>
+<p>Docker recreará solo los contenedores que han cambiado.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+</li>
+<li>
+<p><strong>Verificar Salud:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker-compose<span class="w"> </span>ps
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>curl<span class="w"> </span>http://localhost:8000/api/v1/health
+</code></pre></div>
+</li>
+</ol>
+<h3 id="33-procedimiento-de-instalacion-limpia-cold-deploy">3.3. Procedimiento de "Instalación Limpia" (Cold Deploy)</h3>
+<p>Úsalo solo si el entorno está corrompido o es la primera instalación. <strong>⚠️ Esto implica tiempo de inactividad.</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 1. Detener todo</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>just<span class="w"> </span>down
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 2. Limpiar volúmenes huerfanos (Opcional - Cuidado con la BBDD)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>docker<span class="w"> </span>system<span class="w"> </span>prune<span class="w"> </span>-f
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># 3. Arrancar de cero</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>just<span class="w"> </span>up
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>just<span class="w"> </span>db-migrate
+</code></pre></div>
+<h3 id="34-rollback-vuelta-atras">3.4. Rollback (Vuelta Atrás)</h3>
+<p>Si la nueva versión falla (ej: error 500 continuo):</p>
+<ol>
+<li>
+<p>Edita el <code>docker-compose.yml</code> y cambia el tag de imagen a la versión anterior (ej: <code>v1.2.0</code>).</p>
+</li>
+<li>
+<p>Ejecuta <code>docker-compose up -d</code>.</p>
+</li>
+<li>
+<p><strong>Nota sobre BBDD:</strong> Si la migración de BBDD no es retrocompatible, deberás ejecutar <code>alembic downgrade -1</code>. <em>Consulta al equipo de desarrollo antes de hacer esto.</em></p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@11.12.2/dist/mermaid.min.js"></script>
+      
+        <script src="../../assets/javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>
