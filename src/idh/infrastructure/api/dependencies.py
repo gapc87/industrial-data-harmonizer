@@ -1,3 +1,5 @@
+"""Dependencias de la API para inyección en FastAPI."""
+
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request, status
