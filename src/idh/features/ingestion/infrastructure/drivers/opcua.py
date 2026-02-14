@@ -92,7 +92,7 @@ class OpcUaDriver(IngestionDriver):
             nodes: List[Node] = [
                 self.client.get_node(node_id) for node_id in self.node_ids
             ]
-            values = await self.client.read_values(nodes)  # Single round-trip
+            values = await self.client.read_values(nodes)
 
             for i, value in enumerate(values):
                 yield self._create_event(self.node_ids[i], value)
@@ -100,7 +100,6 @@ class OpcUaDriver(IngestionDriver):
         except Exception as e:
             logger.warning(f"Bulk read failed ({e}), falling back to sequential read.")
 
-            # Fallback to sequential read
             for node_id in self.node_ids:
                 try:
                     node = self.client.get_node(node_id)
@@ -113,7 +112,6 @@ class OpcUaDriver(IngestionDriver):
     def _create_event(self, node_id: str, value: Any) -> TelemetryEvent:
         """Helper para crear un TelemetryEvent saneado"""
 
-        # Ensure value is JSON serializable
         safe_value = self._ensure_serializable(value)
         variant_type = type(value).__name__
 
@@ -146,5 +144,4 @@ class OpcUaDriver(IngestionDriver):
         if isinstance(value, dict):
             return {str(k): self._ensure_serializable(v) for k, v in value.items()}
 
-        # Fallback for complex OPC UA types (StatusCode, Variant, etc.)
         return str(value)
