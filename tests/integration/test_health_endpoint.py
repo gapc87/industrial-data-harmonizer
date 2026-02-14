@@ -25,7 +25,6 @@ class TestHealthEndpoint:
         data = response.json()
         assert "database" in data
         assert "sap_connection" in data
-        # Verificamos que la base de datos esté conectada (gracias a Testcontainers)
         assert data["database"] == "connected"
 
 

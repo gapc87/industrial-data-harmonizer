@@ -1,3 +1,5 @@
+"""Interfaces (puertos) para drivers de ingestión."""
+
 from abc import ABC, abstractmethod
 from typing import AsyncGenerator
 

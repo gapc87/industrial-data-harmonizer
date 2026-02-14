@@ -36,7 +36,6 @@ async def test_mtls_integration_success() -> None:
         "subject": ((("commonName", "gateway-integration-test"),),)
     }
 
-    # Simular el transporte ASGI que incluya el SSL en el scope
     async def mock_app(
         scope: MutableMapping[str, Any], receive: Any, send: Any
     ) -> None:
@@ -67,7 +66,6 @@ async def test_mtls_integration_no_cert() -> None:
 async def test_mtls_integration_invalid_cert() -> None:
     """Verifica que falla si el certificado no tiene CommonName."""
     ssl_object = MagicMock()
-    # Certificado sin subject o sin CN
     ssl_object.getpeercert.return_value = {"subject": ()}
 
     async def mock_app(

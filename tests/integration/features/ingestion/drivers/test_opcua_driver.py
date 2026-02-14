@@ -60,7 +60,7 @@ async def test_opcua_driver_poll_bulk_success() -> None:
         mock_instance.read_values = AsyncMock(return_value=[10.5, 20])
 
         driver = OpcUaDriver(endpoint_url=endpoint, node_ids=node_ids)
-        driver.client = mock_instance  # Inject connected client
+        driver.client = mock_instance
 
         events = []
         async for event in driver.poll():
@@ -86,7 +86,6 @@ async def test_opcua_driver_poll_fallback_resilience() -> None:
 
         mock_instance.read_values = AsyncMock(side_effect=Exception("Bulk read failed"))
 
-        # get_node returns a Node object, which has read_value()
         mock_node_good = MagicMock()
         mock_node_good.read_value = AsyncMock(return_value="GoodValue")
 

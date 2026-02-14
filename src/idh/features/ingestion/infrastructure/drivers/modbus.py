@@ -100,6 +100,7 @@ class ModbusDriver(IngestionDriver):
                 logger.warning(f"Unexpected response type: {type(response)}")
 
     def _create_event(self, address: int, value: Any, slave_id: int) -> TelemetryEvent:
+        """Crea un evento de telemetría normalizado."""
         timestamp = datetime.now(timezone.utc)
 
         metadata = TelemetryMetadata(
