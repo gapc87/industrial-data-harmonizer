@@ -1,3 +1,9 @@
+"""
+Script para iniciar el servidor con soporte mTLS.
+
+Configura Uvicorn con TLS bidireccional si está habilitado.
+"""
+
 import os
 import ssl
 import sys
@@ -21,7 +27,6 @@ def run_server():
     if settings.mtls_enabled:
         print("🚀 Starting server with mTLS enabled...")
 
-        # Verificar que los archivos existen
         mtls_paths = [
             settings.mtls_ca_path,
             settings.mtls_cert_path,

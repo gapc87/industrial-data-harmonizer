@@ -11,6 +11,7 @@ class DomainException(Exception):
     """Excepción base para errores de dominio."""
 
     def __init__(self, message: str) -> None:
+        """Inicializa la excepción con un mensaje descriptivo."""
         self.message = message
         super().__init__(self.message)
 
@@ -19,6 +20,7 @@ class EntityNotFoundError(DomainException):
     """Se lanza cuando una entidad solicitada no existe."""
 
     def __init__(self, entity_type: str, entity_id: str) -> None:
+        """Inicializa la excepción con tipo e identificador de la entidad."""
         super().__init__(f"{entity_type} con ID '{entity_id}' no encontrado.")
         self.entity_type = entity_type
         self.entity_id = entity_id

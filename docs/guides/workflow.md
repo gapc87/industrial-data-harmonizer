@@ -37,7 +37,7 @@ Olvídate de memorizar comandos largos de Docker o argumentos de Pytest. Ejecuta
 No uses `pip install`. Usamos **uv** para mantener el archivo `pyproject.toml` y `uv.lock` siempre sincronizados.
 
 - **Añadir una librería:** `uv add requests`
-- **Añadir una librería de dev:** `uv add --dev pytest`
+- **Añadir una librería de dev:** `uv add --group test pytest` (o `--group lint`/`--group docs`)
 - **Actualizar todo:** `uv sync --upgrade`
 
 ## 3. Gestión de Versiones y Git
@@ -123,7 +123,7 @@ Nuestro repositorio cuenta con una serie de guardianes automáticos:
 
 ### En GitHub (Remoto)
 - **CI Quality Gate (`ci.yml`):** Se dispara al abrir un Pull Request hacia `dev` o `main`.
-    1. Instala dependencias con `uv`.
+    1. Instala dependencias con `uv` (optimizando grupos: `test`, `lint`, `docs`).
     2. Genera el esquema OpenAPI para validar `main.py`.
     3. **Ejecuta Tests:** Corre `pytest` (unitarios e integración).
     4. **Verifica Docs:** Construye MkDocs en modo estricto para detectar enlaces rotos.
@@ -136,3 +136,8 @@ Nuestro repositorio cuenta con una serie de guardianes automáticos:
 - **CD Production (`cd.yml`):**
     - Se ejecuta solo al fusionar en `main`.
     - (Template) Despliega la aplicación en el entorno de producción (ej. Koyeb).
+
+- **E2E Schedule (`e2e-schedule.yml`):**
+    - **Frecuencia:** Diario (04:00 UTC) o manual.
+    - **Objetivo:** Ejecutar tests E2E contra sistemas externos (API públicas, servicios de terceros).
+    - **Por qué separado:** Evita fallos "flaky" en los PRs y saturación de APIs externas.

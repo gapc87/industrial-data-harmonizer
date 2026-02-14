@@ -1,3 +1,9 @@
+"""
+Generador de certificados de prueba para mTLS.
+
+Crea una CA y certificados cliente/servidor para tests locales.
+"""
+
 import os
 from datetime import datetime, timedelta, timezone
 
@@ -20,7 +26,6 @@ def generate_certs(output_dir: str | None = None) -> None:
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # 1. Generar CA
     ca_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     ca_name = x509.Name(
         [
@@ -43,7 +48,6 @@ def generate_certs(output_dir: str | None = None) -> None:
         .sign(ca_key, hashes.SHA256())
     )
 
-    # 2. Generar Certificado de Servidor/Cliente (Mismo para el test mTLS)
     ee_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     ee_name = x509.Name(
         [
@@ -65,7 +69,6 @@ def generate_certs(output_dir: str | None = None) -> None:
         .sign(ca_key, hashes.SHA256())
     )
 
-    # Guardar archivos
     with open(os.path.join(output_dir, "ca.crt"), "wb") as f:
         f.write(ca_cert.public_bytes(serialization.Encoding.PEM))
 
@@ -81,7 +84,6 @@ def generate_certs(output_dir: str | None = None) -> None:
             )
         )
 
-    # También generar server cert por si acaso se quieren distintos
     with open(os.path.join(output_dir, "server.crt"), "wb") as f:
         f.write(ee_cert.public_bytes(serialization.Encoding.PEM))
 

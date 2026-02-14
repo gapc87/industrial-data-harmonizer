@@ -1,3 +1,7 @@
+"""
+Tests de integración para mTLS.
+"""
+
 from typing import Any, MutableMapping
 from unittest.mock import MagicMock
 
@@ -11,6 +15,7 @@ app = FastAPI()
 
 
 async def get_gateway_id(request: Request) -> str:
+    """Obtiene el ID del gateway desde el certificado mTLS."""
     identity = extract_certificate_identity(request)
     if not identity:
         raise HTTPException(status_code=403, detail="Client certificate required")
@@ -19,6 +24,7 @@ async def get_gateway_id(request: Request) -> str:
 
 @app.get("/secure-resource")
 async def secure_resource(gateway_id: str = Depends(get_gateway_id)) -> dict[str, str]:
+    """Endpoint protegido que requiere certificado mTLS."""
     return {"message": f"Hello {gateway_id}"}
 
 
@@ -30,7 +36,6 @@ async def test_mtls_integration_success() -> None:
         "subject": ((("commonName", "gateway-integration-test"),),)
     }
 
-    # Simular el transporte ASGI que incluya el SSL en el scope
     async def mock_app(
         scope: MutableMapping[str, Any], receive: Any, send: Any
     ) -> None:
@@ -61,7 +66,6 @@ async def test_mtls_integration_no_cert() -> None:
 async def test_mtls_integration_invalid_cert() -> None:
     """Verifica que falla si el certificado no tiene CommonName."""
     ssl_object = MagicMock()
-    # Certificado sin subject o sin CN
     ssl_object.getpeercert.return_value = {"subject": ()}
 
     async def mock_app(

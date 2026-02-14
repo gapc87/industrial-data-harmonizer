@@ -4,6 +4,7 @@ Configuración global de Pytest.
 Este archivo contiene fixtures compartidos entre tests unitarios e integración.
 """
 
+import asyncio
 from collections.abc import AsyncGenerator, Generator
 from unittest.mock import patch
 
@@ -13,6 +14,25 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from testcontainers.postgres import PostgresContainer
 
 from idh.main import app
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """
+    Hook para marcar automáticamente tests basándose en su ubicación.
+
+    - tests/unit/* -> unit
+    - tests/integration/* -> integration
+    - tests/e2e/* -> e2e
+    """
+    for item in items:
+        path_str = str(item.path)
+
+        if "tests/unit" in path_str:
+            item.add_marker(pytest.mark.unit)
+        elif "tests/integration" in path_str:
+            item.add_marker(pytest.mark.integration)
+        elif "tests/e2e" in path_str:
+            item.add_marker(pytest.mark.e2e)
 
 
 @pytest.fixture(scope="session")
@@ -30,8 +50,6 @@ def db_container() -> Generator[str, None, None]:
     postgres = PostgresContainer("postgres:15-alpine")
     postgres.start()
 
-    # Construir URL para asyncpg (testcontainers devuelve psycopg2 por defecto)
-    # driver://user:pass@host:port/db
     url = postgres.get_connection_url().replace(
         "postgresql+psycopg2://", "postgresql+asyncpg://"
     )
@@ -39,6 +57,32 @@ def db_container() -> Generator[str, None, None]:
     yield url
 
     postgres.stop()
+
+
+@pytest.fixture(scope="session")
+async def opc_plc_container() -> AsyncGenerator[str, None]:
+    """
+    Inicia un servidor OPC UA local (usando asyncua) para tests E2E.
+    Retorna la URL de conexión.
+
+    Reemplaza la imagen de Docker flaky por un servidor en proceso.
+    """
+    from asyncua import Server
+
+    server = Server()
+    await server.init()
+
+    endpoint = "opc.tcp://0.0.0.0:8555/freeopcua/server/"
+    server.set_endpoint(endpoint)
+    server.set_server_name("FreeOpcUa Example Server")
+
+    idx = await server.register_namespace("http://examples.freeopcua.github.io")
+    ts_node = await server.nodes.objects.add_object(idx, "MyObject")
+    await ts_node.add_variable(idx, "MyVariable", 6.7)
+
+    async with server:
+        await asyncio.sleep(1.0)
+        yield "opc.tcp://127.0.0.1:8555/freeopcua/server/"
 
 
 @pytest.fixture(scope="session")

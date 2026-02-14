@@ -19,7 +19,6 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- General ---
     env_state: Literal["dev", "test", "prod"] = Field(
         default="dev",
         description="Entorno de ejecución: dev, test, prod",
@@ -42,7 +41,6 @@ class Settings(BaseSettings):
         description="Tiempo de expiración de tokens JWT en minutos",
     )
 
-    # --- Security ---
     oauth2_client_id: str = Field(..., description="Client ID for OAuth2")
     oauth2_client_secret: str = Field(
         ..., description="Client Secret for OAuth2", min_length=32
@@ -64,7 +62,6 @@ class Settings(BaseSettings):
         description="Ruta a la clave privada",
     )
 
-    # --- PostgreSQL ---
     postgres_server: str = Field(default="localhost")
     postgres_port: int = Field(default=5432)
     postgres_user: str = Field(default="idh_admin")
@@ -86,7 +83,6 @@ class Settings(BaseSettings):
             )
         )
 
-    # --- SAP Integration ---
     sap_api_base_url: str = Field(
         default="https://sandbox.api.sap.com/s4hana",
         description="URL base de la API OData de SAP",
@@ -98,7 +94,6 @@ class Settings(BaseSettings):
     sap_auth_user: str | None = Field(default=None)
     sap_auth_pass: str | None = Field(default=None)
 
-    # --- CORS ---
     backend_cors_origins: str = Field(
         default="http://localhost:8000,http://localhost:3000",
         description="Orígenes permitidos separados por coma",
@@ -109,7 +104,6 @@ class Settings(BaseSettings):
         """Devuelve la lista de orígenes CORS."""
         return [origin.strip() for origin in self.backend_cors_origins.split(",")]
 
-    # --- Logging ---
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO"
     )

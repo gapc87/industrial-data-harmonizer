@@ -41,7 +41,7 @@ Antes de clonar el repositorio, asegúrate de tener instaladas las siguientes he
     # Equivale a: uv sync
     ```
 
-    Esto creará el entorno virtual (`.venv`) e instalará todas las dependencias (prod + dev) en segundos.
+    Esto creará el entorno virtual (`.venv`) e instalará todas las dependencias (prod + test + lint + docs) en segundos.
 
 
 ## 3. Tu Primer Despliegue Local
@@ -69,7 +69,7 @@ just down
 Para facilitar el desarrollo, el proyecto incluye un catálogo de comandos estandarizados accesibles mediante `just`.
 
 ### Gestión del Entorno
-* `just install`: Instala todas las dependencias del proyecto (dev + prod) usando `uv`.
+* `just install`: Instala todas las dependencias del proyecto (prod + test + lint + docs) usando `uv`.
 * `just setup-env`: Crea el archivo `.env` inicial si no existe.
 
 ### Desarrollo y Ejecución

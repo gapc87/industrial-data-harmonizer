@@ -30,22 +30,15 @@ def test_pydantic_validation() -> None:
 
 def test_missing_env_vars_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
     """Prueba que la falta de variables de entorno provoca un ValidationError."""
-    # Necesitamos limpiar las variables esenciales.
-    # Nota: secret_key, oauth2_client_id, mtls_cert_path son requeridos.
-    # La configuración no distingue mayúsculas
     monkeypatch.delenv("SECRET_KEY", raising=False)
     monkeypatch.delenv("OAUTH2_CLIENT_ID", raising=False)
     monkeypatch.delenv("OAUTH2_CLIENT_SECRET", raising=False)
     monkeypatch.delenv("MTLS_CERT_PATH", raising=False)
-
-    # También se requiere la contraseña de Postgres en Settings
     monkeypatch.delenv("POSTGRES_PASSWORD", raising=False)
 
-    # Instanciar Settings sin archivo env para asegurar el fallo
     with pytest.raises(ValidationError) as excinfo:
         Settings(_env_file=None)
 
-    # Comprobar que campos específicos causaron el error de validación
     errors = excinfo.value.errors()
     failed_fields = [err["loc"][0] for err in errors]
     assert "secret_key" in failed_fields
