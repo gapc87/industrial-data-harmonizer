@@ -25,7 +25,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     - tests/e2e/* -> e2e
     """
     for item in items:
-        # Convert path to string for reliable substring check
         path_str = str(item.path)
 
         if "tests/unit" in path_str:

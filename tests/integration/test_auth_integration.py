@@ -12,7 +12,6 @@ from idh.core.domain.models.security import GatewayIdentity
 from idh.infrastructure.api.dependencies import get_current_gateway
 
 
-# Setup fixture de app dummy
 @pytest.fixture
 def client() -> TestClient:
     app = FastAPI()
@@ -38,9 +37,6 @@ def test_auth_missing_header(client: TestClient) -> None:
 @pytest.mark.asyncio
 async def test_auth_valid_token(client: TestClient) -> None:
     """Verifica autenticación exitosa con token válido mockeado."""
-    # Pero para tests de integración con TestClient, mockear sync vs async
-    # puede ser complicado si la dependencia es async.
-    # Afortunadamente TestClient maneja las apps async bien.
 
     with (
         patch("idh.infrastructure.api.dependencies.verify_token") as mock_verify,
