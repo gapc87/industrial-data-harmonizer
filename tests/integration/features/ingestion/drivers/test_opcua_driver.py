@@ -1,3 +1,7 @@
+"""
+Tests de integración para el driver OPC UA.
+"""
+
 from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 

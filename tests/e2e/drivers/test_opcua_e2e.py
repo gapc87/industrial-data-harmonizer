@@ -1,3 +1,7 @@
+"""
+Tests E2E para el driver OPC UA.
+"""
+
 import logging
 
 import pytest
