@@ -1,7 +1,6 @@
-"""
-Módulo de Autenticación.
-"""
+"""Módulo de Autenticación OAuth2 Client Credentials."""
 
+import secrets
 from datetime import timedelta
 
 from fastapi import APIRouter, HTTPException, status
@@ -15,18 +14,14 @@ settings = get_settings()
 
 
 class ClientCredentialsRequest(BaseModel):
-    """
-    Esquema de solicitud para OAuth2 Client Credentials.
-    """
+    """Esquema de solicitud para OAuth2 Client Credentials."""
 
     client_id: str
     client_secret: str
 
 
 class Token(BaseModel):
-    """
-    Esquema de respuesta estándar OAuth2 con el token de acceso.
-    """
+    """Esquema de respuesta estándar OAuth2 con el token de acceso."""
 
     access_token: str
     token_type: str
@@ -41,7 +36,6 @@ async def login_for_access_token(credentials: ClientCredentialsRequest) -> Token
     Verifica las credenciales del cliente (ID y Secret) contra la configuración
     y devuelve un JWT firmado si son válidas.
     """
-    import secrets
 
     is_id_valid = secrets.compare_digest(
         credentials.client_id, settings.oauth2_client_id

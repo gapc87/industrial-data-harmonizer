@@ -21,16 +21,12 @@ def test_get_token_verifies_gateway_id_claim() -> None:
         "client_id": settings.oauth2_client_id,
         "client_secret": settings.oauth2_client_secret,
     }
-    response = client.post(f"{settings.api_v1_str}/token", json=payload)
+    response = client.post(f"{settings.api_v1_str}/auth/token", json=payload)
     assert response.status_code == 200
 
     data = response.json()
     access_token = data.get("access_token")
     assert access_token is not None
-
-    # Decodificar el token para verificar claims
-    # La backend ya validó la firma al generarlo, aquí verificamos
-    # que se hayan incluido los datos correctos.
 
     decoded_payload = jwt.decode(
         access_token, settings.secret_key, algorithms=[ALGORITHM]
