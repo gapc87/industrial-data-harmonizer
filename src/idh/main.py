@@ -66,7 +66,7 @@ def create_app() -> FastAPI:
     )
 
     application.include_router(health_router, prefix=settings.api_v1_str)
-    application.include_router(auth_router, prefix=settings.api_v1_str)
+    application.include_router(auth_router, prefix=f"{settings.api_v1_str}/auth")
 
     @application.get("/", tags=["Root"])
     async def root() -> dict[str, str]:
