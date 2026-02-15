@@ -1,12 +1,10 @@
 """
-Módulos de Negocio (Features).
+Módulos Funcionales (Features) - Verticales de Negocio.
 
-Esta carpeta contiene los módulos funcionales aislados del sistema.
-Cada feature debe ser autónomo y comunicarse con otros solo a través
-de la capa Core (Dominio/Eventos).
+Contiene la implementación de los dominios específicos del negocio:
+- ingestion/: Adquisición de datos desde planta (OT).
+- production/: Gestión de órdenes y lotes (IT/ERP).
+- quality/: Control de calidad y análisis.
 
-Módulos disponibles:
-- ingestion: Captura de datos OT (PLC -> Raw Data).
-- production: Gestión de órdenes y sincronización con SAP (IT).
-- quality: Validación de calidad basada en telemetría.
+Cada feature es un "hexágono" autocontenido que sigue la arquitectura base.
 """
