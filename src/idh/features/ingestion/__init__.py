@@ -1,11 +1,11 @@
 """
-Módulo de Ingestión de Datos.
+Módulo de Ingestión de Datos (OT Integration).
 
-Responsable de la captura de datos desde fuentes OT (PLCs, SCADA)
-y su persistencia segura en la capa Raw Data (Bronze).
+Responsable de conectar con sistemas de planta (PLC, SCADA, Historians)
+y normalizar los datos en un formato común para el sistema.
 
-Funcionalidades:
-- Drivers de protocolo (OPC UA, Modbus TCP).
-- Normalización inicial de payloads.
-- Aterrizaje en tablas JSONB inmutables.
+Protocolos soportados:
+- Modbus TCP
+- OPC UA
+- MQTT (planificado)
 """

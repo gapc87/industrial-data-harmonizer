@@ -1,3 +1,7 @@
+"""
+Tests unitarios extendidos para el driver OPC UA.
+"""
+
 from unittest.mock import AsyncMock, patch
 
 import pytest
