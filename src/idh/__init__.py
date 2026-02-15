@@ -1,10 +1,8 @@
 """
-Módulo Principal de Industrial Data Harmonizer (IDH).
+Módulo Principal de IDH - Industrial Data Harmonizer.
 
-Este paquete contiene todo el código fuente de la aplicación,
-organizado siguiendo el patrón de Monolito Modular:
-
-- core/: Lógica transversal y dominio base.
-- features/: Módulos de negocio (Ingestión, Producción, Calidad).
-- infrastructure/: Implementación técnica (API, DB, Adaptadores).
+Este paquete contiene toda la implementación del sistema:
+- core/: Dominio, aplicación y seguridad transversal.
+- features/: Módulos funcionales (ingestión, producción, calidad, etc.).
+- infrastructure/: Configuración, API y adaptadores externos.
 """
